@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/internal/refresh-crawler-ip-ranges",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}

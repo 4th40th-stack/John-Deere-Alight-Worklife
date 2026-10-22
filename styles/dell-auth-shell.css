@@ -1,0 +1,1487 @@
+:root {
+  --accent-navy-blue: #266de2;
+  --color-primary: #0066ff;
+  --color-primary-hover: #0052cc;
+  --color-primary-light: #e5f0ff;
+  --color-text-dark: #282828;
+  --color-text-muted: #666666;
+  --color-text-placeholder: #767676;
+  --color-border-light: #dedede;
+  --color-border-focus: #0066ff;
+  --color-bg-subtle: #f9f9f9;
+  --color-error: #c61a1a;
+  --color-error-bg: #fdebec;
+  --border-radius-card: 16px;
+  --border-radius-input: 8px;
+  --border-radius-pill: 1000px;
+  --auth-panel-padding: 32px;
+  --auth-panel-width: 432px;
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: all 0.15s ease-in-out;
+  --font-family: "FS Thrive Elliot Web", "Outfit", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Arial, sans-serif;
+  /* John Deere orange — measured from the live target brand bar + VA banner. */
+  /* John Deere green — measured from the live target (rgb(54, 124, 43)). */
+  --brand-color: #367c2b;
+  --brand-color-hover: #2c6322;
+  /* Primary action button — Alight platform blue (matches the live tenant login button). */
+  --button-primary: #1c68bf;
+  --button-primary-hover: #001f6b;
+}
+
+/*
+ * Authentic typography reverse-engineered from the target.
+ * The live portal loads "FS Thrive Elliot Web" (Regular / Bold / Heavy /
+ * Light / Italic) from the Alight design-system CDN. The same woff files are
+ * vendored under public/fonts/ so the clone renders identical type without a
+ * third-party CDN dependency at runtime.
+ */
+@font-face {
+  font-family: "FS Thrive Elliot Web";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/FSThriveElliotWeb-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "FS Thrive Elliot Web";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/FSThriveElliotWeb-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "FS Thrive Elliot Web";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/FSThriveElliotWeb-Heavy.woff") format("woff");
+}
+
+@font-face {
+  font-family: "FS Thrive Elliot Web";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/FSThriveElliotWeb-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "FS Thrive Elliot Web";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/FSThriveElliotWeb-Italic.woff") format("woff");
+}
+
+.auth-shell-page {
+  font-family: var(--font-family);
+  color: var(--color-text-dark);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.auth-shell-page a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.auth-shell-page a:hover {
+  text-decoration: underline;
+  color: var(--color-primary-hover);
+}
+
+.top-bar-indicator {
+  height: 8px;
+  background-color: rgb(93, 109, 120);
+  width: 100%;
+}
+
+/*
+ * Target: <hr class="brand-bar"> — rgb(243,127,0), 8px tall, full bleed,
+ * no border. Colour is injected per brand via --f-default-color.
+ */
+.brand-bar {
+  height: 8px;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background-color: var(--f-default-color, var(--brand-color));
+}
+
+.global-header {
+  border-bottom: 1px solid rgb(148, 148, 148);
+  background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.f-top-rail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  border-top: 1px solid rgb(148, 148, 148);
+  border-bottom: 1px solid rgb(148, 148, 148);
+  color: rgb(40, 40, 40);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 20.8px;
+  position: relative;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.f-top-rail-control-button {
+  visibility: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+.f-top-rail-items-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1440px;
+  height: 48px;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.f-top-rail-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.f-top-rail-item-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.f-top-rail-item__container {
+  display: flex;
+  align-items: center;
+}
+
+.f-top-rail-item__item,
+.auth-shell-page .f-top-rail .f-top-rail-item__item {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  color: rgb(40, 40, 40);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 20.8px;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: var(--transition-fast);
+}
+
+.f-top-rail-item__item:hover,
+.auth-shell-page .f-top-rail .f-top-rail-item__item:hover {
+  color: rgb(40, 40, 40);
+  text-decoration: none;
+}
+
+.f-top-rail .f-icon {
+  --f-icon-color: var(--accent-navy-blue);
+  display: inline-flex;
+}
+
+.f-top-rail .f-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: var(--f-icon-color);
+}
+
+@media (max-width: 767.98px) {
+  .f-top-rail {
+    display: none;
+  }
+}
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 88px;
+  padding: 24px;
+  max-width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  grid-column: 1;
+  z-index: 1;
+}
+
+/*
+ * Target: <button class="f-button naked medium"> — 40px tall, 20px radius,
+ * transparent 2px border, 16px horizontal padding, 16x16 icon.
+ * Visible only below the `_l` breakpoint (1024px).
+ *
+ * NOTE the compound selector: this button also carries `.f-button`, whose
+ * base rule (`display: inline-flex`) is declared LATER in this file. With a
+ * single class the later base rule won and the button could never be
+ * hidden. `.f-button.mobile-menu-btn` outranks it.
+ */
+.f-button.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 0 16px;
+  height: 40px;
+  margin-right: 0;
+}
+
+.mobile-menu-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: rgb(40, 40, 40);
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 216px;
+}
+
+.brand-container a {
+  display: block;
+  color: rgb(38, 109, 226);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 48px;
+  width: auto;
+  max-width: 216px;
+  max-height: 48px;
+  display: block;
+  object-fit: contain;
+}
+
+/*
+ * The John Deere portal header carries no centre search. The right-hand
+ * cluster (language menu + Virtual Assistant) lives inside the
+ * `_s-display-none _l-display-flex` navigation-tools group on the live
+ * target: it is absent below 1024px and present from 1024px upward.
+ */
+.header-center {
+  display: none;
+}
+
+.header-right {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    min-width: 0;
+  }
+}
+
+.header-search-mobile-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgb(40, 40, 40);
+}
+
+.header-search-mobile-icon {
+  width: 20px;
+  height: 20px;
+  fill: rgb(40, 40, 40);
+  display: block;
+}
+
+.header-search-wrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.sr-only,
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.header-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(40, 40, 40);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  fill: rgb(40, 40, 40);
+}
+
+.header-search-icon path {
+  fill: rgb(40, 40, 40);
+}
+
+.header-search-input,
+.header-search-input.has-start-icon {
+  width: 100%;
+  height: 56px;
+  padding: 16px 16px 16px 56px;
+  border: 1px solid rgb(40, 40, 40);
+  border-radius: 0;
+  font-size: 16px;
+  line-height: 18.4px;
+  font-family: var(--font-family);
+  color: rgb(40, 40, 40);
+  background-color: rgb(255, 255, 255);
+  transition: var(--transition-fast);
+  box-sizing: border-box;
+  appearance: auto;
+  display: inline-block;
+}
+
+.header-search-input:focus {
+  outline: none;
+  border-color: rgb(40, 40, 40);
+}
+
+.header-search-input::placeholder {
+  color: rgb(40, 40, 40);
+}
+
+@media (max-width: 1023.98px) {
+  /* Target `_m-max-w-144px` — the mark shrinks to 144px below 1024px. */
+  .brand-logo {
+    max-width: 144px;
+    max-height: 48px;
+  }
+
+  .f-button.mobile-menu-btn {
+    display: flex;
+  }
+}
+
+@media (max-width: 767.98px) {
+  /* Target `_s-h-64px _s-p-l` — the band shrinks to 64px / 16px padding. */
+  .header-content {
+    height: 64px;
+    padding: 16px;
+  }
+
+  /* Target `_s-w-120px` — the logo container narrows on small screens. */
+  .brand-container {
+    width: 120px;
+  }
+
+  /* Target: the mark renders 144x40 below 768px (it is 144x48 from 768px up). */
+  .brand-logo {
+    max-width: 144px;
+    max-height: 40px;
+  }
+
+  .header-search-mobile-btn {
+    display: flex;
+  }
+}
+
+/*
+ * Main region — TWO columns on the John Deere tenant: the login card on the
+ * left and a promotional photograph on the right.
+ *
+ * Measured grid (the row is capped at 1440px and centred, gap 0):
+ *   < 768px       stacked, each 100%        375: login 375, hero 375 below
+ *   768 - 1023px  50% / 50%                1023: 512 / 512
+ *   >= 1024px     33.3333% / 66.6667%      1440: 480 / 960  (cap: 480 / 960)
+ * The 65px top offset is the gap between the header block and the H1/hero.
+ */
+.main-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 65px 0 0 0;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  column-gap: 0;
+  row-gap: 0;
+  align-items: stretch;
+  min-height: auto;
+  height: auto;
+}
+
+@media (max-width: 767.98px) {
+  .main-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-wrapper {
+    grid-template-columns: 33.3333% 66.6667%;
+  }
+}
+
+/*
+ * Virtual Assistant banner — present on the John Deere portal (and absent on
+ * the Colgate variant of the same Alight shell).
+ * Target: a white row with `padding: 16px 16px 0` holding ONE full-bleed
+ * green pill button (40px tall, 20px radius, brand-coloured 8px glow).
+ * Hidden from 1024px up, where the control moves into the header instead.
+ */
+.virtual-assistant-row {
+  display: flex;
+  justify-content: center;
+  padding: 16px 16px 0;
+  background-color: #ffffff;
+}
+
+/*
+ * One control, two placements. Below 1024px it fills the banner row; from
+ * 1024px it is a content-sized 178x40 pill inside the header's right cluster.
+ */
+.virtual-assistant-btn {
+  color: rgb(0, 0, 0);
+  border-color: var(--brand-color);
+  box-shadow: 0 0 8px 0 var(--brand-color);
+}
+
+.virtual-assistant-row .virtual-assistant-btn {
+  width: 100%;
+}
+
+/*
+ * The 24x24 glyph must out-specify the generic 16x16 `.f-button .f-icon`
+ * rule, so the compound `.f-button.virtual-assistant-btn` selector is used.
+ */
+/*
+ * Target: the Virtual Assistant pill is 178x40 — a 16px padding (plus the
+ * 2px transparent border) around the 24x24 glyph, an 8px gap and the 110px
+ * label.
+ */
+.f-button.virtual-assistant-btn {
+  padding: 0 16px;
+}
+
+.f-button.virtual-assistant-btn .f-icon {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.f-button.virtual-assistant-btn .f-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/*
+ * Promotional image — the RIGHT grid cell. `width: 100%` of the column at the
+ * source image's own 1455:801 ratio reproduces every measured size:
+ *   1440 -> 960x528, 1024 -> 683x376, 1023 -> 512x282, 384 -> 384x211,
+ *   375 (stacked) -> 375x206.
+ * No hover motion: the live target has none.
+ */
+/*
+ * The target leaves 6px below the image at every width where the hero is the
+ * last cell: 1440 -> image ends 690, footer starts 696; 375 -> image ends
+ * 819, footer starts 825. It is what makes the row 534px tall at 1440 (the
+ * image alone is 528), so the login cell stretches to 534 as well.
+ */
+.hero-container {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6px;
+  overflow: hidden;
+}
+
+.hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  object-fit: cover;
+}
+
+/*
+ * Login column — the LEFT grid cell. The row already carries the 65px top
+ * offset, so the column itself has no top padding (the target's H1 sits at
+ * the row's top edge: 162px at >=1024, 218px at 768-1023, 194px below 768).
+ * Gutter 16px below 1024px, 24px from 1024px — it is the gutter, not a fixed
+ * cap, that sets the card width (432px at 1440, 293px at 1024, 480px at 1023).
+ */
+.login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: auto;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0 16px 16px;
+}
+
+@media (min-width: 1024px) {
+  /* Target `_l-p-xl` — a 24px gutter from the large breakpoint up. */
+  .login-section {
+    padding: 0 24px 24px;
+  }
+
+  /* Target `_s-display-block _l-display-none`: the banner row disappears and
+     the Virtual Assistant moves into the header from 1024px upward. */
+  .virtual-assistant-row {
+    display: none;
+  }
+}
+
+/*
+ * The H1 spans the whole column content box on the target (432px at 1440,
+ * 293px at 1024, 361px at 785) — it is NOT capped at a fixed width.
+ */
+.login-section-heading {
+  width: 100%;
+  max-width: 100%;
+}
+
+.welcome-title {
+  font-size: 28px;
+  line-height: 39.2px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 24px;
+}
+
+.bold-text {
+  font-weight: 700;
+}
+
+.text-5xl {
+  font-size: 28px;
+}
+
+.m-none {
+  margin: 0;
+}
+
+/*
+ * Target `f-panel white medium`: 2px solid rgb(222,222,222), 10px radius,
+ * 24px padding, white background, NO box-shadow.
+ */
+.f-panel {
+  background: rgb(255, 255, 255);
+  border: 2px solid rgb(222, 222, 222);
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.25s ease;
+}
+
+.f-panel.white {
+  background: rgb(255, 255, 255);
+}
+
+.f-panel.medium {
+  padding: 24px;
+}
+
+.auth-panel {
+  display: block;
+  align-items: initial;
+  justify-content: initial;
+  padding: 24px;
+}
+
+.auth-panel-wrapper {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.auth-panel-content {
+  width: 100%;
+}
+
+.auth-panel-user-id {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+  height: auto;
+  padding: var(--auth-panel-padding);
+  border-radius: 10px;
+}
+
+.auth-panel-password {
+  height: auto;
+  padding: var(--auth-panel-padding);
+  border-radius: 10px;
+}
+
+.user-summary-block {
+  width: 100%;
+  max-width: var(--auth-panel-width);
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+.user-summary-label-row {
+  margin: 0 0 8px 0;
+}
+
+.user-summary-value-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.change-user-btn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.change-user-btn:hover {
+  text-decoration: underline;
+  color: var(--color-primary-hover);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.input-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.input-field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  width: 100%;
+  min-height: 56px;
+  padding: 1rem 3rem 1rem 1.25rem;
+  border: 1px solid rgb(40, 40, 40);
+  border-radius: 0;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  color: var(--color-text-dark);
+  background-color: #ffffff;
+  transition: var(--transition-fast);
+}
+
+.input-field:focus {
+  outline: 3px solid #0066ff;
+  border-color: var(--color-primary);
+  box-shadow: none;
+}
+
+.input-field.has-error {
+  border-color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-placeholder);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.password-toggle-btn:hover {
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-subtle);
+}
+
+.password-toggle-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.error-message svg {
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.auth-panel-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.auth-panel-footer-links a {
+  font-size: 0.85rem;
+}
+
+/*
+ * Target: bg #f9f9f9, no top border. The footer's `f-col` is capped at
+ * 1200px and centred with 12px padding, which is why the target's content
+ * starts at x=132 on a 1440px page ((1440 - 1200) / 2 + 12) and at x=12 on
+ * narrow ones.
+ */
+.f-global-footer {
+  display: block;
+  width: 100%;
+  background-color: rgb(249, 249, 249);
+  color: rgb(40, 40, 40);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 20.8px;
+  box-sizing: border-box;
+  border-top: 0;
+}
+
+.f-global-footer-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/*
+ * Footer content width, measured as `navX - 12` across the target:
+ *
+ *   1023 -> 100% (navX 12)      1152 -> 83.7% (navX 106)
+ *   1024 -> 83.8% (navX 95)     1280 -> 83.6% (navX 117)
+ *   1440 -> 1200px (navX 132)   1920 -> 1200px (navX 372)
+ *
+ * i.e. full width below the `_l` breakpoint, then five sixths of the viewport
+ * from 1024px up with the 1200px cap taking over at 1440. Without this the
+ * footer sat up to 94px left of the target at 1152 and 1280.
+ */
+@media (min-width: 1024px) {
+  .f-global-footer-inner {
+    width: 83.3333%;
+    max-width: 1200px;
+  }
+}
+
+.f-footer-row {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+ * `column-gap: 0` is load-bearing: the nav cell is a fixed 555px from 769px
+ * up and the brand cell 262px, so a 48px column gap made the pair 865px wide
+ * against an 829px footer at 1024 and 784px against 744px at 768 — `flex-wrap`
+ * then dropped the brand cell onto its own line and pushed the legal row 132px
+ * and 122px below the target respectively. With the gap at 0 both cells fit
+ * (817/829 at 1024, 736/744 at 768) and `justify-content: space-between` still
+ * pushes the brand marks to the right edge.
+ */
+.f-footer-row-main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px 0;
+  margin-bottom: 24px;
+}
+
+/*
+ * Two link columns. The SPLIT POINT is not fixed: on the target it depends on
+ * how tall the column becomes, because the "Healthcare Transparency in
+ * Coverage" link wraps to three lines at narrow widths and two at wide ones:
+ *   >= 768px -> 4 items in column 1, 2 in column 2
+ *   <  768px -> 3 items in column 1, 3 in column 2
+ * `grid-auto-flow: column` fills column 1 down to `grid-template-rows` before
+ * moving on, which reproduces both splits from one ordered list.
+ */
+.f-footer-nav-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 0;
+  align-content: start;
+  flex: 1 1 auto;
+  min-width: 0;
+  /*
+   * Below 769px the target keeps this cell at 474px so two 237px tracks fit —
+   * enough for "Healthcare Transparency in Coverage" (274px unwrapped) to break
+   * onto two lines exactly as the target renders it at 768. The cell then fills
+   * 474px of the available width; at 375 the 340px footer is narrower than the
+   * cap so the cap never binds.
+   */
+  max-width: 474px;
+}
+
+/*
+ * Second link column position — derived from the target at two widths:
+ *
+ *   1440: col1 x=132, col2 x=419  ->  track1 + gap = 287
+ *   1023: col1 x=12,  col2 x=299  ->  track1 + gap = 287
+ *   768:  col1 x=12,  col2 x=249  ->  track1 + gap = 237
+ *
+ * The link single-line widths (measured with FS Thrive Elliot Web loaded) are
+ * Healthcare 274px and Protect 268px. With `gap: 0`, track1 would be 287 —
+ * wider than Healthcare's 274 — so it would never wrap, yet the target renders
+ * it on two lines at 201px. With `gap: 80` (the Alight `gap-5xl`) track1 is
+ * 207, which wraps Healthcare to 201px and leaves Protect's 268px to fill its
+ * own track exactly — matching all three observations.
+ *
+ * Below 769px the gap closes to 0 and the two tracks split what is left.
+ */
+@media (min-width: 769px) {
+  .f-footer-nav-columns {
+    flex: 0 1 auto;
+    width: 555px;
+    max-width: none;
+    column-gap: 80px;
+    /* 207 + 80 + 268 = 555: column 1 must be narrow enough to break
+       "Healthcare Transparency in Coverage" (274px unwrapped) onto two lines,
+       column 2 wide enough to hold "Protect..." (268px) on one. */
+    grid-template-columns: 207px minmax(0, 1fr);
+  }
+
+  /*
+   * The brand cell takes the remaining space and right-aligns its marks, so
+   * the Alight Worklife mark lands at x=1046 on a 1440px page.
+   */
+  .f-footer-brand-block {
+    flex: 1 1 0;
+    justify-content: flex-end;
+  }
+}
+
+/*
+ * Two INDEPENDENT stacks, not one grid with shared row heights. On a shared
+ * grid the second column's two-line "Protect Yourself From Website Fraud"
+ * row stretched the first column's rows and pushed "Contact Us" 21px below
+ * the target at 768. Each column now stacks its own items, so the measured
+ * pitches (53px between one-line links, 74px after a two-line link) are
+ * reproduced exactly.
+ */
+.f-footer-nav-column {
+  min-width: 0;
+}
+
+/*
+ * Only "Contact Us" changes column: column 1 keeps its first three links at
+ * every width (verified at 375 and 768), so the desktop variant of that one
+ * item is the only thing hidden below 768.
+ */
+.f-footer-nav-item-mobile {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .f-footer-nav-item-contact-desktop {
+    display: none;
+  }
+
+  .f-footer-nav-item-mobile {
+    display: block;
+  }
+}
+
+/*
+ * Measured link pitch: 53px between consecutive link tops at 1440 (720, 773,
+ * 826). text 21 + padding 8+4+4+8 + margin-bottom 8 = 53. The 8px margin is
+ * what the template dropped.
+ */
+.f-footer-nav-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.wlf-footer-listitem {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/*
+ * `display: inline` and not `inline-block`: on the target a link that wraps
+ * measures its WIDEST LINE — Healthcare renders 201x40 at 1440 and 116x61 at
+ * 375, both narrower than their column. An inline-block fills the column
+ * instead (207x42 / 165x62) and its taller line box pushes every row below it
+ * further down, which was worth 21px on the Contact Us row at 768.
+ */
+.f-footer-nav-link,
+.auth-shell-page .f-global-footer .f-footer-nav-link {
+  display: inline;
+  color: var(--accent-navy-blue);
+  font-size: 16px;
+  line-height: 20.8px;
+  font-weight: 400;
+  text-decoration: underline;
+  transition: var(--transition-fast);
+}
+
+.f-footer-nav-link:hover,
+.auth-shell-page .f-global-footer .f-footer-nav-link:hover {
+  color: #165bcf;
+  text-decoration: underline;
+}
+
+.f-footer-brand-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding-top: 0;
+  gap: 16px;
+}
+
+.f-footer-logo-link {
+  display: block;
+  height: 40px;
+  margin-bottom: 4px;
+}
+
+.f-footer-logo {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.f-footer-app-badges {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.f-footer-app-link {
+  display: inline-block;
+  height: 40px;
+  line-height: 0;
+}
+
+.f-footer-app-badge {
+  display: block;
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/*
+ * Vertical run from the bottom of the nav row to the legal links is 55px on
+ * the target at 1440 (nav row ends 940, Privacy Policy starts 995). The
+ * chain here is `.f-footer-row-main` margin-bottom 24 + this rule's 1px
+ * height + its own margin — 30px puts the total at 55 instead of 45.
+ */
+.f-divider {
+  border: 0;
+  margin: 0 0 30px;
+  height: 0;
+}
+
+.f-divider-neutral-mountain-mist {
+  height: 1px;
+  background-color: rgb(148, 148, 148);
+  border: none;
+}
+
+.f-footer-row-legal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 16px;
+}
+
+/* Target gap between legal links is 24px (132 -> 238 -> 342 -> 448 at 1440),
+   not the 20px inherited from the template. */
+.f-footer-legal-links {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 24px;
+  flex: 1 1 auto;
+}
+
+/* Target legal links render at 13px / 16.9px. */
+.f-footer-legal-item {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 16.9px;
+}
+
+.f-footer-legal-link,
+.auth-shell-page .f-global-footer .f-footer-legal-link {
+  color: var(--accent-navy-blue);
+  font-size: 13px;
+  line-height: 16.9px;
+  font-weight: 400;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.f-footer-legal-link:hover,
+.auth-shell-page .f-global-footer .f-footer-legal-link:hover {
+  color: #165bcf;
+}
+
+/* Target copyright: 14px, neutral steel, left aligned. */
+.f-footer-copyright {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: 14px;
+  line-height: 18.2px;
+  color: rgb(102, 102, 102);
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 1023.98px) {
+  /*
+   * Target `_m-flex-column` on the legal row: legal links and the copyright
+   * stack until the `_l` breakpoint (1024px).
+   */
+  .f-footer-row-legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .f-global-footer-inner {
+    width: auto;
+    margin: 0 5px;
+    padding: 12px;
+  }
+
+  /* Target: links start 12px inside their container at 375 (x=29 of a
+     container at x=17) but flush with it at 768 (x=12 of a container at x=12). */
+  .f-footer-nav-columns {
+    padding-left: 12px;
+  }
+
+  .f-footer-row-main {
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .f-footer-brand-block {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .f-footer-row-legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /*
+   * Deliberately NOT `flex-direction: column`: the target keeps the first
+   * three legal links on one line at 375 (Privacy, Terms and Cookie Notice all
+   * sit at y=1240) and lets only "Cookie Settings [...]" wrap below. The base
+   * wrapping row reproduces that.
+   */
+
+  .f-footer-legal-item {
+    padding-right: 0;
+  }
+
+  .f-footer-legal-link {
+    white-space: normal;
+  }
+
+  .f-footer-copyright {
+    text-align: left;
+    white-space: normal;
+  }
+}
+
+.mb-xl {
+  margin-bottom: 24px;
+}
+
+.mb-l {
+  margin-bottom: 1rem;
+}
+
+.mt-l {
+  margin-top: 1rem;
+}
+
+.mt-xl {
+  margin-top: 24px;
+}
+
+/* Target `.text-l` renders at 16px in the Alight design system. */
+.text-l {
+  font-size: 16px;
+}
+
+/* Target `.text-m` renders at 14px / 18.2px. */
+.text-m {
+  font-size: 14px;
+  line-height: 18.2px;
+}
+
+.text-xs {
+  font-size: 12px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-flex-end {
+  justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-m {
+  gap: 8px;
+}
+
+.h-40px {
+  height: 40px;
+}
+
+.pr-m {
+  padding-right: 8px;
+}
+
+.w-24px {
+  width: 24px;
+}
+
+.h-24px {
+  height: 24px;
+}
+
+.accent-navy-blue-text {
+  color: #266de2;
+}
+
+/* Target: h6 = 18px / 21.6px, inner `.text-l` = 16px / 24px. */
+.auth-panel h6 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.auth-panel h6 .text-l {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.f-text-input {
+  position: relative;
+  width: 100%;
+}
+
+.f-text-input .input-container {
+  position: relative;
+}
+
+/* Target input: 56px tall, 1px solid rgb(40,40,40), 16px padding. */
+.f-text-input .input-container input {
+  width: 100%;
+  height: 56px;
+  padding: 16px;
+  border: 1px solid rgb(40, 40, 40);
+  border-radius: 0;
+  font-size: 16px;
+  line-height: 18.4px;
+  font-family: var(--font-family);
+  color: rgb(40, 40, 40);
+  background: #fff;
+  box-sizing: border-box;
+  outline: none;
+  display: inline-block;
+}
+
+.f-text-input .input-container input:focus {
+  border-color: #0066ff;
+  outline: 2px solid #0066ff;
+  outline-offset: -2px;
+}
+
+/* Testing 1 Probe 1 (Alight): error state highlights the field — mirrors
+   the kit's `.input-field.has-error` treatment using the kit error token. */
+.f-text-input .input-container input.has-error {
+  border-color: var(--color-error);
+  background-color: var(--color-error-bg);
+}
+
+/*
+ * Target label sits ABOVE the field (`f-text-input-label`, margin-bottom 8px),
+ * not floating inside it.
+ */
+.f-text-input-label {
+  display: block;
+  position: static;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 14.4px;
+  color: rgb(40, 40, 40);
+  pointer-events: none;
+  font-family: var(--font-family);
+}
+
+.f-label-text__required-text {
+  color: rgb(102, 102, 102);
+  margin-left: 4px;
+}
+
+.f-label-text__required-symbol {
+  color: rgb(198, 26, 26);
+  margin-left: 4px;
+}
+
+/*
+ * Target `f-button progressive medium`: 40px tall, 20px radius, 2px
+ * transparent border, 0 16px padding, Bold 14px.
+ */
+.f-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16.1px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 0 16px;
+  height: 40px;
+  min-width: 0;
+  transition: all 0.15s ease-in-out;
+}
+
+.f-button.progressive {
+  background-color: var(--button-primary);
+  color: #ffffff;
+}
+
+.f-button.progressive:hover:not(:disabled) {
+  background-color: var(--button-primary-hover);
+}
+
+.f-button.progressive:disabled {
+  background-color: rgb(148, 148, 148);
+  color: rgb(255, 255, 255);
+  cursor: not-allowed;
+}
+
+/*
+ * The Virtual Assistant pill is a brand element (orange border + orange glow,
+ * black label) — it carries `.progressive` only for shared geometry, so keep
+ * its fill on the brand colour rather than the primary-action blue.
+ */
+.f-button.progressive.virtual-assistant-btn {
+  background-color: var(--brand-color);
+}
+
+.f-button .button-text {
+  font-weight: 700;
+  line-height: 21px;
+}
+
+/*
+ * Icon sizing for f-button. The Alight design system gives every f-icon a
+ * 16x16 box; without this rule the inline SVG collapses to zero width and the
+ * glyph disappears (the language globe and chevron vanish from the header).
+ */
+.f-button .f-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.f-button .f-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/*
+ * The language control on the live target: a blue globe glyph, a dark "EN"
+ * label and a blue chevron.
+ */
+/*
+ * Target: the language control is 113x40 — an 18px padding (plus the 2px
+ * transparent border) around a 16px globe, a 10px gap, the 19px "EN" label,
+ * an 11px gap and a 16px chevron.
+ */
+.header-language-btn {
+  padding: 0 18px;
+}
+
+.header-language-btn .f-icon {
+  color: var(--accent-navy-blue);
+  margin: -1px 0 1px;
+}
+
+.header-language-btn .f-icon.left {
+  margin-right: 10px;
+}
+
+.header-language-btn .f-icon.right {
+  margin-right: 0;
+  margin-left: 11px;
+}
+
+.header-language-btn .button-text {
+  color: var(--color-text-dark);
+}
+
+.mobile-menu-btn .f-icon {
+  margin: -1px 1px 1px;
+}
+
+.auth-panel button.flex.items-center.gap-m,
+.auth-panel button.back-to-user {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  padding-right: 8px;
+  margin: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family);
+  font-size: 16px;
+  color: rgb(40, 40, 40);
+}
+
+.auth-panel button.flex.items-center.gap-m svg,
+.auth-panel button.back-to-user svg {
+  width: 16px;
+  height: 16px;
+  fill: #266de2;
+}
+
+@media (max-width: 767.98px) {
+  .login-section {
+    padding: 0 16px 16px;
+  }
+
+  .f-panel.white.medium,
+  .auth-panel-password,
+  .user-summary-block {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

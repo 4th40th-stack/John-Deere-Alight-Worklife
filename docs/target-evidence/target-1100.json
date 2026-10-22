@@ -1,0 +1,1086 @@
+{
+  "vw": 1100,
+  "vh": 900,
+  "scrollH": 1024,
+  "text": "!",
+  "col": [
+    0,
+    162,
+    367,
+    427
+  ],
+  "colCls": "_s-col-4 _m-col-4 _l-col-4 _xl-col-4 _2xl-col-4 p-none",
+  "panel": [
+    50,
+    290,
+    267,
+    24
+  ],
+  "panelCls": "mb-l",
+  "h1box": [
+    24,
+    162,
+    319,
+    78
+  ],
+  "h1clsReal": "bold-text text-5xl m-none",
+  "enterUserId": [
+    50,
+    290,
+    267,
+    24
+  ],
+  "asterisk": [
+    50,
+    330,
+    267,
+    16
+  ],
+  "userIdLabel": [
+    50,
+    362,
+    40,
+    14
+  ],
+  "input": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "forgot": [
+    50,
+    456,
+    267,
+    18
+  ],
+  "next": [
+    50,
+    499,
+    267,
+    40
+  ],
+  "va": [
+    0,
+    0,
+    1100,
+    97
+  ],
+  "brandBar": [
+    0,
+    0,
+    1100,
+    8
+  ],
+  "headerContent": [
+    0,
+    8,
+    1100,
+    88
+  ],
+  "header": [
+    0,
+    137,
+    1100,
+    0
+  ],
+  "logo": [
+    24,
+    28,
+    201,
+    48
+  ],
+  "hamburger": null,
+  "footer": [
+    0,
+    537,
+    1100,
+    0
+  ],
+  "heroWrap": null,
+  "heroImg": null,
+  "mainWrap": null,
+  "imgs": [
+    {
+      "src": "AlightMobileClientLogo.svg",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ]
+    },
+    {
+      "src": "image1_logon-page_large.jpg",
+      "r": [
+        367,
+        162,
+        733,
+        404
+      ]
+    },
+    {
+      "src": "alight_worklife_logo_black.svg",
+      "r": [
+        737,
+        611,
+        254,
+        40
+      ]
+    },
+    {
+      "src": "alight-worklife-app-store.png",
+      "r": [
+        737,
+        671,
+        119,
+        40
+      ]
+    },
+    {
+      "src": "alight-worklife-google-play.png",
+      "r": [
+        863,
+        671,
+        135,
+        40
+      ]
+    },
+    {
+      "src": "remove_screen_capture.png",
+      "r": [
+        733,
+        73,
+        15,
+        15
+      ]
+    },
+    {
+      "src": "building_preview.gif",
+      "r": [
+        633,
+        88,
+        100,
+        96
+      ]
+    }
+  ],
+  "bgs": [],
+  "classes": [
+    "header-content flex flex-row items-center justify-space-between _s-h-64px _s-p-l _m-h-88px _m-p-xl",
+    "flex items-center _l-w-30",
+    "flex items-center justify-flex-start _s-w-120px _m-w-216px",
+    "h-auto w-auto _s-max-w-144px _m-max-w-144px _l-max-w-216px max-h-48px _m-h-48px _s-h-40px",
+    "flex items-center _l-min-w-30 _l-justify-flex-end",
+    "navigation-tools _s-display-none _l-display-flex _l-ml-l",
+    "grid-row justify-center",
+    "_s-col-4 _m-col-4 _l-col-4 _xl-col-4 _2xl-col-4 p-none",
+    "_s-p-l _m-p-l _l-p-xl _xl-p-xl _2xl-p-xl _s-pt-none _m-pt-none _l-pt-none _xl-pt-none _2xl-pt-none",
+    "flex flex-wrap items-center mt-l mb-l justify-flex-end",
+    "_s-col-4 _m-col-4 _l-col-8 _xl-col-8 _2xl-col-8 p-none",
+    "flex _s-flex-column _m-flex-row _xl-flex-row justify-space-between",
+    "flex flex-1 _s-justify-center _m-justify-flex-end _xl-justify-flex-end ml-xl",
+    "flex _s-flex-column _m-flex-column _l-flex-row _s-gap-l justify-space-between",
+    "text-m neutral-steel-text _m-text-align-center ng-star-inserted"
+  ],
+  "footerTree": [
+    {
+      "d": 0,
+      "t": "div",
+      "c": "al-u-2-2 al-u-4-4 al-u-8-8 al-u-16-16 portlet-column portlet-column-la",
+      "r": [
+        0,
+        589,
+        1100,
+        436
+      ],
+      "txt": ""
+    },
+    {
+      "d": 1,
+      "t": "al-footer-wc",
+      "c": "",
+      "r": [
+        0,
+        589,
+        1100,
+        436
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":host{display:block;clear:both}@media print{:host{display:no"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ":root,:host{--color-bg-body-base:#ffffff;--color-bg-dark-sub"
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": "/**\n * Global variables\n * Please use this file to define gl"
+    },
+    {
+      "d": 2,
+      "t": "link",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "f-global-footer",
+      "c": "ng-star-inserted hydrated",
+      "r": [
+        0,
+        589,
+        1100,
+        436
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 3,
+      "t": "div",
+      "c": "f-global-footer",
+      "r": [
+        0,
+        589,
+        1100,
+        436
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 4,
+      "t": "f-grid",
+      "c": "hydrated",
+      "r": [
+        0,
+        589,
+        1100,
+        436
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        589,
+        1100,
+        252
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "hydrated",
+      "r": [
+        92,
+        589,
+        917,
+        252
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "flex _s-flex-column _m-flex-row _xl-flex-row justify-space-between",
+      "r": [
+        102,
+        599,
+        896,
+        232
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        841,
+        1100,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "hydrated",
+      "r": [
+        92,
+        841,
+        917,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 7,
+      "t": "f-divider",
+      "c": "hydrated",
+      "r": [
+        102,
+        850,
+        896,
+        1
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        861,
+        1100,
+        70
+      ],
+      "txt": "Privacy Policy\nTerms Of Use\nCookie Notice\nCookie Settings [D"
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "mb-s mt-s hydrated",
+      "r": [
+        92,
+        865,
+        917,
+        62
+      ],
+      "txt": "Privacy Policy\nTerms Of Use\nCookie Notice\nCookie Settings [D"
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "flex _s-flex-column _m-flex-column _l-flex-row _s-gap-l justify-space-",
+      "r": [
+        102,
+        875,
+        896,
+        42
+      ],
+      "txt": "Privacy Policy\nTerms Of Use\nCookie Notice\nCookie Settings [D"
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        931,
+        1100,
+        24
+      ],
+      "txt": ""
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "mb-s hydrated",
+      "r": [
+        92,
+        931,
+        917,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "flex _s-flex-column _m-flex-column _l-flex-row _s-gap-l justify-space-",
+      "r": [
+        102,
+        941,
+        896,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "al-display-debuglnk-wrpr",
+      "r": [
+        102,
+        941,
+        896,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        955,
+        1100,
+        24
+      ],
+      "txt": ""
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "mb-s hydrated",
+      "r": [
+        92,
+        955,
+        917,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "flex _s-flex-column _m-flex-column _l-flex-row _s-gap-l justify-space-",
+      "r": [
+        102,
+        966,
+        896,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        980,
+        1100,
+        24
+      ],
+      "txt": ""
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "mb-s hydrated",
+      "r": [
+        92,
+        980,
+        917,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "flex _s-flex-column _m-flex-column _l-flex-row _s-gap-l justify-space-",
+      "r": [
+        102,
+        990,
+        896,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "f-row",
+      "c": "hydrated",
+      "r": [
+        0,
+        1004,
+        1100,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 6,
+      "t": "f-col",
+      "c": "hydrated",
+      "r": [
+        92,
+        1004,
+        917,
+        20
+      ],
+      "txt": ""
+    },
+    {
+      "d": 7,
+      "t": "div",
+      "c": "flex _s-flex-column _m-flex-column _l-flex-row _s-gap-l justify-space-",
+      "r": [
+        102,
+        1014,
+        896,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "f-modal",
+      "c": "hydrated",
+      "r": [
+        0,
+        1024,
+        0,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "f-modal",
+      "c": "hydrated",
+      "r": [
+        0,
+        1024,
+        0,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "div",
+      "c": "shadow",
+      "r": [
+        0,
+        1024,
+        1100,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 3,
+      "t": "div",
+      "c": "",
+      "r": [
+        0,
+        1024,
+        1100,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "",
+      "r": [
+        0,
+        1024,
+        1100,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "link",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "script",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": ""
+    },
+    {
+      "d": 2,
+      "t": "style",
+      "c": "shadow",
+      "r": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "txt": "@layer primeng{.p-dialog-mask{position:fixed;top:0;left:0;wi"
+    }
+  ],
+  "links": [
+    {
+      "h": "#",
+      "t": "Press enter to skip to main content.",
+      "r": [
+        0,
+        147,
+        1,
+        1
+      ]
+    },
+    {
+      "h": "/web/deere/login?linkId=LOG_ON_LINK&technicalNameForLink=LOG_ON_LINK&userFriendlyNameForLink=Log On&domain=Ben-CM&baseClientIndicator=Base&isUCCELink=true",
+      "t": "",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ]
+    },
+    {
+      "h": "javascript:void(0)",
+      "t": "Don't have User ID",
+      "r": [
+        197,
+        456,
+        120,
+        18
+      ]
+    },
+    {
+      "h": "/documents/cloudcmsdocuments/UCEDocuments/fileId/250109?ts=1699254565352&linkId=Login_Help&technicalNameForLink=Login_Help&userFriendlyNameForLink=Login_Help&domain=Ben-HM&baseClientIndicator=Client&windowtreatment=tab&scrollbars=no&isUCCELink=true",
+      "t": "Login Help",
+      "r": [
+        102,
+        611,
+        79,
+        19
+      ]
+    },
+    {
+      "h": "/documents/cloudcmsdocuments/UCEDocuments/fileId/53201?ts=1541448504651&linkId=When_to_call_Deere&technicalNameForLink=When_to_call_Deere&userFriendlyNameForLink=When to call Deere&domain=Ben-HM&baseClientIndicator=Client&windowtreatment=tab&scrollbars=no&isUCCELink=true",
+      "t": "When to call Deere",
+      "r": [
+        102,
+        664,
+        139,
+        19
+      ]
+    },
+    {
+      "h": "/ah-angular-afirst-web/#/web/deere/contentPage?articleId=uxvtk52u-4153-mrlx-nvsq-h3pkk4r5k7zo&linkId=Healthcare_Transparency_in_Coverage&technicalNameForLink=Healthcare_Transparency_in_Coverage&userFriendlyNameForLink=Healthcare Transparency in Coverage&domain=Ben-HM&baseClientIndicator=Client&isUCCELink=true",
+      "t": "Healthcare Transparency in Coverage",
+      "r": [
+        102,
+        716,
+        201,
+        40
+      ]
+    },
+    {
+      "h": "/web/deere/pre-contactus?linkId=PRE_CONTACT_US&technicalNameForLink=PRE_CONTACT_US&userFriendlyNameForLink=Pre-auth contact us link&domain=null&baseClientIndicator=Base&isUCCELink=true",
+      "t": "Contact Us",
+      "r": [
+        102,
+        790,
+        81,
+        19
+      ]
+    },
+    {
+      "h": "javascript:void(0);",
+      "t": "Feedback",
+      "r": [
+        389,
+        611,
+        70,
+        19
+      ]
+    },
+    {
+      "h": "javascript:void(0);",
+      "t": "Protect Yourself From Website Fraud",
+      "r": [
+        389,
+        664,
+        268,
+        19
+      ]
+    },
+    {
+      "h": "https://alight.com/",
+      "t": "",
+      "r": [
+        737,
+        611,
+        262,
+        40
+      ]
+    },
+    {
+      "h": "https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8",
+      "t": "",
+      "r": [
+        737,
+        671,
+        119,
+        40
+      ]
+    },
+    {
+      "h": "https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&hl=en_US",
+      "t": "",
+      "r": [
+        863,
+        671,
+        135,
+        40
+      ]
+    },
+    {
+      "h": "https://www.alight.com/privacy",
+      "t": "Privacy Policy",
+      "r": [
+        102,
+        878,
+        82,
+        16
+      ]
+    },
+    {
+      "h": "https://www.alight.com/legal-terms",
+      "t": "Terms Of Use",
+      "r": [
+        208,
+        878,
+        80,
+        16
+      ]
+    },
+    {
+      "h": "https://www.alight.com/cookie-notice",
+      "t": "Cookie Notice",
+      "r": [
+        312,
+        878,
+        82,
+        16
+      ]
+    },
+    {
+      "h": null,
+      "t": "Cookie Settings [Do Not Sell or Share My Persona",
+      "r": [
+        102,
+        899,
+        374,
+        16
+      ]
+    }
+  ],
+  "headerKids": [
+    {
+      "d": 0,
+      "t": "div",
+      "c": "flex items-center _l-w-30",
+      "r": [
+        24,
+        28,
+        296,
+        48
+      ],
+      "txt": "",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 1,
+      "t": "div",
+      "c": "flex items-center justify-flex-start _s-w-120px _m-w-216px",
+      "r": [
+        24,
+        28,
+        216,
+        48
+      ],
+      "txt": "",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 2,
+      "t": "div",
+      "c": "",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 3,
+      "t": "a",
+      "c": "flex",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ],
+      "txt": "",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 4,
+      "t": "img",
+      "c": "h-auto w-auto _s-max-w-144px _m-max-w-144px _l-max-w-216px max-h-48px _m-h-48px ",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 0,
+      "t": "nav",
+      "c": "flex items-center _l-min-w-30 _l-justify-flex-end",
+      "r": [
+        780,
+        32,
+        296,
+        40
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 1,
+      "t": "div",
+      "c": "navigation-tools _s-display-none _l-display-flex _l-ml-l",
+      "r": [
+        898,
+        32,
+        178,
+        40
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 2,
+      "t": "f-button",
+      "c": "hydrated",
+      "r": [
+        898,
+        32,
+        178,
+        40
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 3,
+      "t": "button",
+      "c": "f-button progressive medium",
+      "r": [
+        898,
+        32,
+        178,
+        40
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "inline-flex",
+      "bg": "rgb(54, 124, 43)"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "mie-m w-24px h-24px",
+      "r": [
+        916,
+        40,
+        24,
+        24
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "rtl-flip",
+      "r": [
+        916,
+        40,
+        24,
+        29
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 6,
+      "t": "svg",
+      "c": "",
+      "r": [
+        916,
+        40,
+        25,
+        25
+      ],
+      "txt": "",
+      "disp": "inline",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 4,
+      "t": "span",
+      "c": "button-text",
+      "r": [
+        948,
+        42,
+        110,
+        21
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

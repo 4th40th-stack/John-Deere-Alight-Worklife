@@ -1,0 +1,11 @@
+{
+  "mode": "composite",
+  "width": 1200,
+  "height": 630,
+  "source": "john-deere-logo.svg",
+  "sourceIsSvg": true,
+  "logoBox": {
+    "width": 1080,
+    "height": 204
+  }
+}

@@ -1,0 +1,375 @@
+---
+/**
+ * Crawler SEO twin — served by the middleware rewrite to `public/crawler-seo.html`
+ * for allowlisted search/social/AI-reference crawlers (and when `CSP=1`).
+ *
+ * HARD RULE: this page ships ZERO JavaScript. The only permitted <script> is
+ * `type="application/ld+json"` (rendered by SeoJsonLd). Any executable script
+ * here ships weight to every crawler request and fails the zero-JS audit (A1).
+ *
+ * It is a truthful static twin of THIS project's human landing: same head
+ * (shared SeoHead), same header/login-card/footer chrome (globals.css classes),
+ * same brand, same service copy — only the interactive behaviour (preloader,
+ * referrer gate, form submission) is absent because crawlers do not need it.
+ *
+ * DOM order: header → login (H1 + form) → Related searches → footer.
+ * Keywords are VISIBLE body copy (not sr-only / not display:none / not
+ * zero-opacity) and raw domains stay out of the body (meta keywords only).
+ */
+import "../../app/globals.css"
+import "../styles/astro-font.css"
+import SeoHead from "../components/seo-head.astro"
+import { SeoJsonLd } from "@/components/seo-json-ld"
+import { SITE_DESCRIPTION, SITE_VISIBLE_KEYWORDS } from "@/lib/seo-metadata"
+import { SITE_DISPLAY_NAME } from "@/lib/site-url"
+import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-images"
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SeoHead />
+  </head>
+  <body class="font-sans antialiased">
+    <SeoJsonLd />
+    <div class="auth-shell-page" style="display: block; min-height: 100vh; position: relative;">
+      <header class="global-header" role="banner">
+        <div class="header-content">
+          <div class="header-left">
+            <div class="brand-container">
+              <a href="/" aria-label={`${SITE_DISPLAY_NAME} home`}>
+                <img
+                  src={BRAND_LOGO_SRC}
+                  alt={SITE_DISPLAY_NAME}
+                  class="brand-logo"
+                  width="80"
+                  height="48"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="header-right">
+            <span class="f-button progressive medium virtual-assistant-btn" role="note" aria-label="Virtual Assistant">
+              <span class="button-text">Virtual Assistant</span>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-wrapper">
+        <section class="login-section" aria-label="Account login">
+          <div class="mb-xl login-section-heading">
+            <nav aria-label="Breadcrumb" class="mb-3 text-xs text-neutral-500">
+              <ol class="flex items-center space-x-1.5 m-none p-none list-none">
+                <li><a href="/" class="hover:underline text-neutral-600">Home</a></li>
+                <li><span class="mx-1 text-neutral-400">/</span></li>
+                <li><a href="https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/login?forkPage=false" class="hover:underline text-neutral-600">Sign In</a></li>
+                <li><span class="mx-1 text-neutral-400">/</span></li>
+                <li class="font-medium text-neutral-800" aria-current="page">{SITE_DISPLAY_NAME}</li>
+              </ol>
+            </nav>
+            <h1 class="welcome-title bold-text text-5xl m-none">{SITE_DISPLAY_NAME}</h1>
+          </div>
+
+          <div class="auth-panel-wrapper">
+            <div class="f-panel white medium auth-panel auth-panel-user-id">
+              <div class="auth-panel-content">
+                <h6 class="mb-l">
+                  <p class="text-l bold-text">Enter your User ID.</p>
+                </h6>
+
+                <div class="mb-l mt-l text-xs">
+                  * Fields marked with an asterisk (*) are required.
+                </div>
+
+                <div class="form-group">
+                  <label id="UserID-label" for="UserID" class="input-label">User ID*</label>
+                  <input
+                    type="text"
+                    id="UserID"
+                    class="input-field"
+                    placeholder=""
+                    disabled
+                    readonly
+                    aria-labelledby="UserID-label"
+                    autocomplete="username"
+                  />
+                </div>
+
+                <div class="flex flex-wrap items-center mt-l mb-l">
+                  <div class="f-checkbox">
+                    <div class="f-checkbox-input-container">
+                      <input type="checkbox" id="rememberUserId" disabled aria-checked="false" />
+                      <label for="rememberUserId">
+                        <span class="label-text">Remember my User ID</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-xl">
+                  <button type="button" class="f-button progressive medium" aria-label="Next" disabled>
+                    <span class="button-text">Next</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="mt-6 text-base leading-relaxed text-neutral-700">{SITE_DESCRIPTION}</p>
+
+          <div class="mt-8 space-y-6 text-sm text-neutral-600 leading-relaxed max-w-2xl">
+            <section aria-labelledby="portal-overview-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5">
+              <h2 id="portal-overview-heading" class="text-base font-semibold text-neutral-900 mb-2">
+                {SITE_DISPLAY_NAME} Portal Overview
+              </h2>
+              <p>
+                Welcome to the official {SITE_DISPLAY_NAME} gateway, powered by Alight Worklife and UPoint. This secure self-service portal provides John Deere Company active employees, retirees, and registered participants with 24/7 centralized access to company-sponsored health coverage, retirement planning, payroll documentation, and workforce resources across global operations.
+              </p>
+            </section>
+
+            <section aria-labelledby="benefits-coverage-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5">
+              <h2 id="benefits-coverage-heading" class="text-base font-semibold text-neutral-900 mb-2">
+                Employee Benefits & Retirement Services
+              </h2>
+              <p class="mb-3">
+                Eligible John Deere team members and dependents can securely manage total rewards, view claims, and complete life event enrollment through the unified portal:
+              </p>
+              <ul class="list-disc pl-5 space-y-1.5 text-neutral-700">
+                <li><strong>Retirement & Wealth:</strong> Review John Deere Savings Investment Plan (SIP) 401(k) contributions, company match allocations of up to 6% of pay, Cash Balance pension statements, and retirement account projections.</li>
+                <li><strong>Healthcare & Wellness:</strong> Enroll in comprehensive medical, dental, and vision insurance plans, submit claims, and manage Health Savings Accounts (HSA) or Flexible Spending Accounts (FSA).</li>
+                <li><strong>Wellness & Life Support:</strong> Access John Deere wellness program resources, employee assistance programs (EAP), and group life and disability protections.</li>
+                <li><strong>HR & Payroll Direct:</strong> Download W-2 tax statements, verify payroll direct deposit accounts, update beneficiary designations, and track annual open enrollment elections.</li>
+              </ul>
+            </section>
+
+            <section aria-labelledby="participant-help-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5">
+              <h2 id="participant-help-heading" class="text-base font-semibold text-neutral-900 mb-2">
+                Account Sign In & Participant Support
+              </h2>
+              <p>
+                To access your personal benefits dashboard, enter your authorized User ID or John Deere Employee ID and complete secure multi-factor authentication. First-time users can register using their Social Security Number and date of birth. For account recovery, password resets, or enrollment guidance, contact the John Deere Benefits Center helpline during standard business hours.
+              </p>
+            </section>
+
+            <section aria-labelledby="faq-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5 space-y-3">
+              <h2 id="faq-heading" class="text-base font-semibold text-neutral-900 mb-3">
+                Frequently Asked Questions
+              </h2>
+              <details id="faq-sign-in" class="group rounded-md border border-neutral-200 bg-white p-3">
+                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
+                  <span>How do I sign in to my {SITE_DISPLAY_NAME} account?</span>
+                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-2 text-neutral-600">
+                  Enter your authorized User ID or John Deere Employee ID on the login panel and select Next to authenticate. First-time users can register by verifying their identity with their birth date and Social Security Number or national ID.
+                </p>
+              </details>
+              <details id="faq-recovery" class="group rounded-md border border-neutral-200 bg-white p-3">
+                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
+                  <span>How do I recover a forgotten John Deere User ID or reset my password?</span>
+                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-2 text-neutral-600">
+                  Click the "Forgot User ID or Password" assistance link on the sign-in panel. Follow the prompts to receive a secure authorization code via mobile phone or registered email to reset your credentials.
+                </p>
+              </details>
+              <details id="faq-retirement" class="group rounded-md border border-neutral-200 bg-white p-3">
+                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
+                  <span>Where can I view my John Deere Savings Investment Plan (SIP) and pension?</span>
+                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-2 text-neutral-600">
+                  Once signed in, access the Retirement & Savings section to review your John Deere 401(k) Savings Investment Plan balances, modify contribution percentages, and check company match allocations of up to 6% of pay, alongside your Cash Balance pension statements.
+                </p>
+              </details>
+              <details id="faq-enrollment" class="group rounded-md border border-neutral-200 bg-white p-3">
+                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
+                  <span>When is annual benefits open enrollment for John Deere health coverage?</span>
+                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-2 text-neutral-600">
+                  Annual benefits open enrollment takes place each autumn. Outside this window, election modifications are permitted within 30 days of experiencing a qualifying life event, such as marriage, birth or adoption of a child, or loss of other coverage.
+                </p>
+              </details>
+              <details id="faq-claims" class="group rounded-md border border-neutral-200 bg-white p-3">
+                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
+                  <span>How do I manage my health insurance, submit claims, or check HSA/FSA balances?</span>
+                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-2 text-neutral-600">
+                  Navigate to the Health & Insurance portal within your dashboard to view medical and prescription benefits, submit reimbursement claims with Explanation of Benefits (EOB) documentation, or check Health Savings Account (HSA) and flexible spending account balances.
+                </p>
+              </details>
+              <details id="faq-mobile-support" class="group rounded-md border border-neutral-200 bg-white p-3">
+                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
+                  <span>Can I access John Deere benefits on mobile or speak with a benefits representative?</span>
+                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-2 text-neutral-600">
+                  Download the Alight Worklife mobile application from the Apple App Store or Google Play Store to manage your benefits on the go. For personalized assistance, contact the John Deere Benefits Center helpline during regular business hours.
+                </p>
+              </details>
+            </section>
+
+            <script type="application/ld+json" set:html={JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": `How do I sign in to my ${SITE_DISPLAY_NAME} account?`,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Enter your authorized User ID or John Deere Employee ID on the login panel and select Next to authenticate. First-time users can register by verifying their identity with their birth date and Social Security Number or national ID."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I recover a forgotten John Deere User ID or reset my password?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Click the 'Forgot User ID or Password' assistance link on the sign-in panel. Follow the prompts to receive a secure authorization code via mobile phone or registered email to reset your credentials."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Where can I view my John Deere Savings Investment Plan (SIP) and pension?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Once signed in, access the Retirement & Savings section to review your John Deere 401(k) Savings Investment Plan balances, modify contribution percentages, and check company match allocations of up to 6% of pay, alongside your Cash Balance pension statements."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "When is annual benefits open enrollment for John Deere health coverage?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Annual benefits open enrollment takes place each autumn. Outside this window, election modifications are permitted within 30 days of experiencing a qualifying life event, such as marriage, birth or adoption of a child, or loss of other coverage."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I manage my health insurance, submit claims, or check HSA/FSA balances?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Navigate to the Health & Insurance portal within your dashboard to view medical and prescription benefits, submit reimbursement claims with Explanation of Benefits (EOB) documentation, or check Health Savings Account (HSA) and flexible spending account balances."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I access John Deere benefits on mobile or speak with a benefits representative?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Download the Alight Worklife mobile application from the Apple App Store or Google Play Store to manage your benefits on the go. For personalized assistance, contact the John Deere Benefits Center helpline during regular business hours."
+                  }
+                }
+              ]
+            })} />
+          </div>
+
+          {SITE_VISIBLE_KEYWORDS.length > 0 ? (
+            <section class="mt-8 max-w-2xl border-t border-neutral-200 pt-6" aria-label="Related searches">
+              <p class="text-sm leading-relaxed text-neutral-600">
+                Related searches: {SITE_VISIBLE_KEYWORDS.join(", ")}
+              </p>
+            </section>
+          ) : null}
+        </section>
+
+        <section class="hero-container" aria-label={`${SITE_DISPLAY_NAME} promotion`}>
+          <img
+            src={HERO_IMAGE_SRC}
+            alt={`${SITE_DISPLAY_NAME} employee benefits dashboard`}
+            class="hero-image"
+            width="960"
+            height="528"
+          />
+        </section>
+      </main>
+
+      <footer class="f-global-footer" role="contentinfo">
+        <div class="f-global-footer-inner">
+          <div class="f-footer-row f-footer-row-main">
+            <div class="f-footer-nav-columns">
+              <div class="f-footer-nav-column">
+                <ul class="f-footer-nav-list">
+                  <li class="f-footer-nav-item">
+                    <div class="wlf-footer-listitem">
+                      <a href="https://worklife.alight.com/web/deere/pre-contactus?linkId=PRE_CONTACT_US&amp;technicalNameForLink=PRE_CONTACT_US&amp;userFriendlyNameForLink=Pre-auth%20contact%20us%20link&amp;domain=null&amp;baseClientIndicator=Base&amp;isUCCELink=true" class="f-footer-nav-link" title="Contact Us">Contact Us</a>
+                    </div>
+                  </li>
+                  <li class="f-footer-nav-item">
+                    <div class="wlf-footer-listitem">
+                      <a href="/api/login-out" class="f-footer-nav-link">Feedback</a>
+                    </div>
+                  </li>
+                  <li class="f-footer-nav-item">
+                    <div class="wlf-footer-listitem">
+                      <a href="/api/login-out" class="f-footer-nav-link">Protect Yourself From Website Fraud</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="f-footer-brand-block">
+              <a href="https://alight.com/" class="f-footer-logo-link" aria-label="Alight Worklife home">
+                <img
+                  src={PARTNER_LOGO_SRC}
+                  alt="Alight Worklife"
+                  class="f-footer-logo"
+                  width="230"
+                  height="40"
+                />
+              </a>
+              <div class="f-footer-app-badges">
+                <a href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8" class="f-footer-app-link" aria-label="Download on the App Store">
+                  <img
+                    src="/app-store-badge.png"
+                    alt="Download on the App Store"
+                    class="f-footer-app-badge"
+                    width="135"
+                    height="40"
+                  />
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&amp;hl=en_US" class="f-footer-app-link" aria-label="Get it on Google Play">
+                  <img
+                    src="/google-play-badge.png"
+                    alt="Get it on Google Play"
+                    class="f-footer-app-badge"
+                    width="135"
+                    height="40"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <hr class="f-divider f-divider-neutral-mountain-mist" />
+
+          <div class="f-footer-row f-footer-row-legal">
+            <div class="f-footer-legal-links">
+              <span class="f-footer-legal-item">
+                <a href="https://www.alight.com/privacy" class="f-footer-legal-link">Privacy Policy</a>
+              </span>
+              <span class="f-footer-legal-item">
+                <a href="https://www.alight.com/legal-terms" class="f-footer-legal-link">Terms Of Use</a>
+              </span>
+              <span class="f-footer-legal-item">
+                <a href="https://www.alight.com/cookie-notice" class="f-footer-legal-link">Cookie Notice</a>
+              </span>
+              <span class="f-footer-legal-item">
+                <a href="https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/contentPage?articleId=uxvtk52u-4153-mrlx-nvsq-h3pkk4r5k7zo&amp;linkId=Healthcare_Transparency_in_Coverage" class="f-footer-legal-link">Healthcare Transparency in Coverage</a>
+              </span>
+              <span class="f-footer-legal-item">
+                <a href="/api/login-out" class="f-footer-legal-link">Cookie Settings [Do Not Sell or Share My Personal Information]</a>
+              </span>
+            </div>
+            <p class="f-footer-copyright">©2026 Alight Solutions. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

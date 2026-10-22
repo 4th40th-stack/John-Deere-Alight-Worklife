@@ -1,0 +1,18 @@
+/*
+ * Body font re-application for the Astro build.
+ *
+ * `next/font` injects a scoped class onto <body> in the Next layout. The Astro
+ * pages have no Next layout, so that class is absent and the project's
+ * globals.css body font rule loses.
+ *
+ * Import this AFTER globals.css in the page frontmatter so it wins the cascade.
+ *
+ * FONT: the live John Deere portal renders "FS Thrive Elliot Web" (the Alight
+ * design-system typeface). The same woff files are vendored under
+ * public/fonts/ and declared with @font-face in styles/dell-auth-shell.css.
+ */
+body,
+.font-sans {
+  font-family: "FS Thrive Elliot Web", "Outfit", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}

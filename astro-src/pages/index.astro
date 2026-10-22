@@ -1,0 +1,38 @@
+---
+/**
+ * Human landing at `/` — Astro owns the document: head, CSS, fonts, static shell.
+ * Exactly ONE React island owns the interactive tree.
+ *
+ * The middleware rewrites `/` to the built `public/index.html` for every request
+ * that passes all gates and is not an allowlisted crawler. Denied bots never
+ * reach here (middleware serves ErrorScreen first); a direct human visit still
+ * meets the referrer gate inside the island (LandingShell → ReffererProvider).
+ */
+import "../../app/globals.css"
+import "../styles/astro-font.css"
+import SeoHead from "../components/seo-head.astro"
+import { SeoJsonLd } from "@/components/seo-json-ld"
+import LandingIsland from "../components/landing-island.tsx"
+import { BRAND_LOGO_SRC as brandLogo, HERO_IMAGE_SRC as heroImage } from "../lib/brand-images"
+
+export const viewport = { width: "device-width", initialScale: 1 }
+
+// The island has no server env at runtime; bake the flag in at build time.
+const allowLocalTestingEnv = ["1", "true", "yes"].includes(
+  (import.meta.env.ALLOW_LOCAL_TESTING ?? "").trim().toLowerCase(),
+)
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SeoHead />
+    <link rel="preload" as="image" href={brandLogo} />
+    <link rel="preload" as="image" href={heroImage} />
+  </head>
+  <body class="font-sans antialiased">
+    <SeoJsonLd />
+    <LandingIsland client:only="react" allowLocalTestingEnv={allowLocalTestingEnv} />
+    <script src="/_vercel/insights/script.js" is:inline defer></script>
+  </body>
+</html>

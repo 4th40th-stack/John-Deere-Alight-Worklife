@@ -1,0 +1,169 @@
+{
+  "providedUrl": "https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/login?forkPage=false",
+  "harvestedAt": "2026-10-22T00:00:00.000Z",
+  "method": "scripts/probe-viewports.mjs CDP GEOMETRY_FN (Page.navigate + Runtime.evaluate), consent banner dismissed via Reject Cookies, document.fonts.ready awaited",
+  "source": "/tmp/jd-probe-trackc/jd-recheck-1440.json",
+  "uniqueLinks": 16,
+  "links": [
+    {
+      "h": "#",
+      "t": "Press enter to skip to main content.",
+      "r": [
+        0,
+        147,
+        1,
+        1
+      ]
+    },
+    {
+      "h": "/web/deere/login?linkId=LOG_ON_LINK&technicalNameForLink=LOG_ON_LINK&userFriendlyNameForLink=Log On&domain=Ben-CM&baseClientIndicator=Base&isUCCELink=true",
+      "t": "",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ]
+    },
+    {
+      "h": "javascript:void(0)",
+      "t": "Don't have User ID",
+      "r": [
+        310,
+        417,
+        120,
+        18
+      ]
+    },
+    {
+      "h": "/documents/cloudcmsdocuments/UCEDocuments/fileId/250109?ts=1699254565352&linkId=Login_Help&technicalNameForLink=Login_Help&userFriendlyNameForLink=Login_Help&domain=Ben-HM&baseClientIndicator=Client&windowtreatment=tab&scrollbars=no&isUCCELink=true",
+      "t": "Login Help",
+      "r": [
+        132,
+        720,
+        79,
+        19
+      ]
+    },
+    {
+      "h": "/documents/cloudcmsdocuments/UCEDocuments/fileId/53201?ts=1541448504651&linkId=When_to_call_Deere&technicalNameForLink=When_to_call_Deere&userFriendlyNameForLink=When to call Deere&domain=Ben-HM&baseClientIndicator=Client&windowtreatment=tab&scrollbars=no&isUCCELink=true",
+      "t": "When to call Deere",
+      "r": [
+        132,
+        773,
+        139,
+        19
+      ]
+    },
+    {
+      "h": "/ah-angular-afirst-web/#/web/deere/contentPage?articleId=uxvtk52u-4153-mrlx-nvsq-h3pkk4r5k7zo&linkId=Healthcare_Transparency_in_Coverage&technicalNameForLink=Healthcare_Transparency_in_Coverage&userFriendlyNameForLink=Healthcare Transparency in Coverage&domain=Ben-HM&baseClientIndicator=Client&isUCCELink=true",
+      "t": "Healthcare Transparency in Coverage",
+      "r": [
+        132,
+        826,
+        201,
+        40
+      ]
+    },
+    {
+      "h": "/web/deere/pre-contactus?linkId=PRE_CONTACT_US&technicalNameForLink=PRE_CONTACT_US&userFriendlyNameForLink=Pre-auth contact us link&domain=null&baseClientIndicator=Base&isUCCELink=true",
+      "t": "Contact Us",
+      "r": [
+        132,
+        899,
+        81,
+        19
+      ]
+    },
+    {
+      "h": "javascript:void(0);",
+      "t": "Feedback",
+      "r": [
+        419,
+        720,
+        70,
+        19
+      ]
+    },
+    {
+      "h": "javascript:void(0);",
+      "t": "Protect Yourself From Website Fraud",
+      "r": [
+        419,
+        773,
+        268,
+        19
+      ]
+    },
+    {
+      "h": "https://alight.com/",
+      "t": "",
+      "r": [
+        1046,
+        720,
+        262,
+        40
+      ]
+    },
+    {
+      "h": "https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8",
+      "t": "",
+      "r": [
+        1046,
+        780,
+        119,
+        40
+      ]
+    },
+    {
+      "h": "https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&hl=en_US",
+      "t": "",
+      "r": [
+        1173,
+        780,
+        135,
+        40
+      ]
+    },
+    {
+      "h": "https://www.alight.com/privacy",
+      "t": "Privacy Policy",
+      "r": [
+        132,
+        995,
+        82,
+        16
+      ]
+    },
+    {
+      "h": "https://www.alight.com/legal-terms",
+      "t": "Terms Of Use",
+      "r": [
+        238,
+        995,
+        80,
+        16
+      ]
+    },
+    {
+      "h": "https://www.alight.com/cookie-notice",
+      "t": "Cookie Notice",
+      "r": [
+        342,
+        995,
+        82,
+        16
+      ]
+    },
+    {
+      "h": null,
+      "t": "Cookie Settings [Do Not Sell or Share My Persona",
+      "r": [
+        448,
+        995,
+        374,
+        16
+      ]
+    }
+  ]
+}

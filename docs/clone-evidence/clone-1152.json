@@ -1,0 +1,1033 @@
+{
+  "vw": 1152,
+  "vh": 900,
+  "scrollH": 957,
+  "text": "Download invoiceCompany website Virtual Assistant Welcome to Alight Worklife Enter your User ID. * Fields marked with an asterisk (*) are required. User ID(Required)* Don't have User ID Next Login Help When to call Deere Healthcare Transparency in Coverage Con",
+  "col": [
+    0,
+    162,
+    384,
+    429
+  ],
+  "colCls": null,
+  "panel": [
+    50,
+    290,
+    284,
+    24
+  ],
+  "panelCls": "mb-l",
+  "h1box": [
+    24,
+    162,
+    336,
+    78
+  ],
+  "h1clsReal": "mb-xl login-section-heading",
+  "enterUserId": [
+    50,
+    290,
+    284,
+    24
+  ],
+  "asterisk": [
+    50,
+    330,
+    284,
+    16
+  ],
+  "userIdLabel": [
+    50,
+    362,
+    40,
+    14
+  ],
+  "input": [
+    -10000,
+    72,
+    173,
+    24
+  ],
+  "forgot": [
+    50,
+    457,
+    284,
+    18
+  ],
+  "next": [
+    50,
+    499,
+    284,
+    40
+  ],
+  "va": [
+    0,
+    8,
+    1152,
+    89
+  ],
+  "brandBar": [
+    0,
+    0,
+    1152,
+    8
+  ],
+  "headerContent": [
+    0,
+    8,
+    1152,
+    88
+  ],
+  "header": [
+    0,
+    8,
+    1152,
+    89
+  ],
+  "logo": [
+    24,
+    28,
+    201,
+    48
+  ],
+  "hamburger": null,
+  "footer": [
+    0,
+    591,
+    1152,
+    366
+  ],
+  "heroWrap": [
+    384,
+    162,
+    768,
+    429
+  ],
+  "heroImg": [
+    384,
+    162,
+    768,
+    423
+  ],
+  "mainWrap": [
+    0,
+    97,
+    1152,
+    494
+  ],
+  "imgs": [
+    {
+      "src": "john-deere-logo.svg",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ]
+    },
+    {
+      "src": "hero-logon-page.jpg",
+      "r": [
+        384,
+        162,
+        768,
+        423
+      ]
+    },
+    {
+      "src": "alight_worklife_logo_black.svg",
+      "r": [
+        790,
+        603,
+        254,
+        40
+      ]
+    },
+    {
+      "src": "app-store-badge.png",
+      "r": [
+        774,
+        663,
+        119,
+        40
+      ]
+    },
+    {
+      "src": "google-play-badge.png",
+      "r": [
+        909,
+        663,
+        135,
+        40
+      ]
+    }
+  ],
+  "bgs": [],
+  "classes": [
+    "flex flex-wrap items-center mt-l mb-l justify-flex-end"
+  ],
+  "footerTree": [
+    {
+      "d": 0,
+      "t": "div",
+      "c": "f-global-footer-inner",
+      "r": [
+        96,
+        591,
+        960,
+        366
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 1,
+      "t": "div",
+      "c": "f-footer-row f-footer-row-main",
+      "r": [
+        108,
+        603,
+        936,
+        232
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 2,
+      "t": "div",
+      "c": "f-footer-nav-columns",
+      "r": [
+        108,
+        603,
+        555,
+        232
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 3,
+      "t": "div",
+      "c": "f-footer-nav-column",
+      "r": [
+        108,
+        603,
+        207,
+        232
+      ],
+      "txt": "Login Help\nWhen to call Deere\nHealthcare Transparency in Cov"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "f-footer-nav-item",
+      "r": [
+        108,
+        603,
+        207,
+        45
+      ],
+      "txt": "Login Help"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "wlf-footer-listitem",
+      "r": [
+        108,
+        611,
+        207,
+        29
+      ],
+      "txt": "Login Help"
+    },
+    {
+      "d": 6,
+      "t": "a",
+      "c": "f-footer-nav-link",
+      "r": [
+        108,
+        615,
+        79,
+        19
+      ],
+      "txt": "Login Help"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "f-footer-nav-item",
+      "r": [
+        108,
+        656,
+        207,
+        45
+      ],
+      "txt": "When to call Deere"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "wlf-footer-listitem",
+      "r": [
+        108,
+        664,
+        207,
+        29
+      ],
+      "txt": "When to call Deere"
+    },
+    {
+      "d": 6,
+      "t": "a",
+      "c": "f-footer-nav-link",
+      "r": [
+        108,
+        668,
+        139,
+        19
+      ],
+      "txt": "When to call Deere"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "f-footer-nav-item",
+      "r": [
+        108,
+        708,
+        207,
+        66
+      ],
+      "txt": "Healthcare Transparency in Coverage"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "wlf-footer-listitem",
+      "r": [
+        108,
+        716,
+        207,
+        50
+      ],
+      "txt": "Healthcare Transparency in Coverage"
+    },
+    {
+      "d": 6,
+      "t": "a",
+      "c": "f-footer-nav-link",
+      "r": [
+        108,
+        720,
+        201,
+        40
+      ],
+      "txt": "Healthcare Transparency in Coverage"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "f-footer-nav-item f-footer-nav-item-contact-desktop",
+      "r": [
+        108,
+        782,
+        207,
+        45
+      ],
+      "txt": "Contact Us"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "wlf-footer-listitem",
+      "r": [
+        108,
+        790,
+        207,
+        29
+      ],
+      "txt": "Contact Us"
+    },
+    {
+      "d": 6,
+      "t": "a",
+      "c": "f-footer-nav-link",
+      "r": [
+        108,
+        794,
+        81,
+        19
+      ],
+      "txt": "Contact Us"
+    },
+    {
+      "d": 3,
+      "t": "div",
+      "c": "f-footer-nav-column",
+      "r": [
+        395,
+        603,
+        268,
+        232
+      ],
+      "txt": "Feedback\nProtect Yourself From Website Fraud"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "f-footer-nav-item",
+      "r": [
+        395,
+        603,
+        268,
+        45
+      ],
+      "txt": "Feedback"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "wlf-footer-listitem",
+      "r": [
+        395,
+        611,
+        268,
+        29
+      ],
+      "txt": "Feedback"
+    },
+    {
+      "d": 6,
+      "t": "a",
+      "c": "f-footer-nav-link",
+      "r": [
+        395,
+        615,
+        70,
+        19
+      ],
+      "txt": "Feedback"
+    },
+    {
+      "d": 4,
+      "t": "div",
+      "c": "f-footer-nav-item",
+      "r": [
+        395,
+        656,
+        268,
+        45
+      ],
+      "txt": "Protect Yourself From Website Fraud"
+    },
+    {
+      "d": 5,
+      "t": "div",
+      "c": "wlf-footer-listitem",
+      "r": [
+        395,
+        664,
+        268,
+        29
+      ],
+      "txt": "Protect Yourself From Website Fraud"
+    },
+    {
+      "d": 6,
+      "t": "a",
+      "c": "f-footer-nav-link",
+      "r": [
+        395,
+        668,
+        268,
+        19
+      ],
+      "txt": "Protect Yourself From Website Fraud"
+    },
+    {
+      "d": 2,
+      "t": "div",
+      "c": "f-footer-brand-block",
+      "r": [
+        774,
+        603,
+        270,
+        100
+      ],
+      "txt": ""
+    },
+    {
+      "d": 3,
+      "t": "a",
+      "c": "f-footer-logo-link",
+      "r": [
+        790,
+        603,
+        254,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 4,
+      "t": "img",
+      "c": "f-footer-logo",
+      "r": [
+        790,
+        603,
+        254,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 3,
+      "t": "div",
+      "c": "f-footer-app-badges",
+      "r": [
+        774,
+        663,
+        270,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 4,
+      "t": "a",
+      "c": "f-footer-app-link",
+      "r": [
+        774,
+        663,
+        119,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "img",
+      "c": "f-footer-app-badge",
+      "r": [
+        774,
+        663,
+        119,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 4,
+      "t": "a",
+      "c": "f-footer-app-link",
+      "r": [
+        909,
+        663,
+        135,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 5,
+      "t": "img",
+      "c": "f-footer-app-badge",
+      "r": [
+        909,
+        663,
+        135,
+        40
+      ],
+      "txt": ""
+    },
+    {
+      "d": 1,
+      "t": "hr",
+      "c": "f-divider f-divider-neutral-mountain-mist",
+      "r": [
+        108,
+        859,
+        936,
+        1
+      ],
+      "txt": ""
+    },
+    {
+      "d": 1,
+      "t": "div",
+      "c": "f-footer-row f-footer-row-legal",
+      "r": [
+        108,
+        890,
+        936,
+        55
+      ],
+      "txt": "Privacy Policy\nTerms Of Use\nCookie Notice\nCookie Settings [D"
+    },
+    {
+      "d": 2,
+      "t": "div",
+      "c": "f-footer-legal-links",
+      "r": [
+        108,
+        890,
+        936,
+        17
+      ],
+      "txt": "Privacy Policy\nTerms Of Use\nCookie Notice\nCookie Settings [D"
+    },
+    {
+      "d": 3,
+      "t": "span",
+      "c": "f-footer-legal-item",
+      "r": [
+        108,
+        890,
+        82,
+        17
+      ],
+      "txt": "Privacy Policy"
+    },
+    {
+      "d": 4,
+      "t": "a",
+      "c": "f-footer-legal-link",
+      "r": [
+        108,
+        890,
+        82,
+        16
+      ],
+      "txt": "Privacy Policy"
+    },
+    {
+      "d": 3,
+      "t": "span",
+      "c": "f-footer-legal-item",
+      "r": [
+        214,
+        890,
+        80,
+        17
+      ],
+      "txt": "Terms Of Use"
+    },
+    {
+      "d": 4,
+      "t": "a",
+      "c": "f-footer-legal-link",
+      "r": [
+        214,
+        890,
+        80,
+        16
+      ],
+      "txt": "Terms Of Use"
+    },
+    {
+      "d": 3,
+      "t": "span",
+      "c": "f-footer-legal-item",
+      "r": [
+        318,
+        890,
+        82,
+        17
+      ],
+      "txt": "Cookie Notice"
+    },
+    {
+      "d": 4,
+      "t": "a",
+      "c": "f-footer-legal-link",
+      "r": [
+        318,
+        890,
+        82,
+        16
+      ],
+      "txt": "Cookie Notice"
+    },
+    {
+      "d": 3,
+      "t": "span",
+      "c": "f-footer-legal-item",
+      "r": [
+        424,
+        890,
+        374,
+        17
+      ],
+      "txt": "Cookie Settings [Do Not Sell or Share My Personal Informatio"
+    },
+    {
+      "d": 4,
+      "t": "a",
+      "c": "f-footer-legal-link",
+      "r": [
+        424,
+        890,
+        374,
+        16
+      ],
+      "txt": "Cookie Settings [Do Not Sell or Share My Personal Informatio"
+    },
+    {
+      "d": 2,
+      "t": "p",
+      "c": "f-footer-copyright",
+      "r": [
+        108,
+        927,
+        273,
+        18
+      ],
+      "txt": "©2026 Alight Solutions. All rights reserved."
+    }
+  ],
+  "links": [
+    {
+      "h": "/api/bot-honeypot",
+      "t": "Download invoice",
+      "r": [
+        -10000,
+        2,
+        75,
+        43
+      ]
+    },
+    {
+      "h": "/",
+      "t": "",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ]
+    },
+    {
+      "h": "/api/login-out",
+      "t": "Don't have User ID",
+      "r": [
+        214,
+        457,
+        120,
+        18
+      ]
+    },
+    {
+      "h": "https://worklife.alight.com/documents/cloudcmsdocuments/UCEDocuments/fileId/250109?ts=1699254565352&linkId=Login_Help&technicalNameForLink=Login_Help&userFriendlyNameForLink=Login_Help&domain=Ben-HM&baseClientIndicator=Client&windowtreatment=tab&scrollbars=no&isUCCELink=true",
+      "t": "Login Help",
+      "r": [
+        108,
+        615,
+        79,
+        19
+      ]
+    },
+    {
+      "h": "https://worklife.alight.com/documents/cloudcmsdocuments/UCEDocuments/fileId/53201?ts=1541448504651&linkId=When_to_call_Deere&technicalNameForLink=When_to_call_Deere&userFriendlyNameForLink=When%20to%20call%20Deere&domain=Ben-HM&baseClientIndicator=Client&windowtreatment=tab&scrollbars=no&isUCCELink=true",
+      "t": "When to call Deere",
+      "r": [
+        108,
+        668,
+        139,
+        19
+      ]
+    },
+    {
+      "h": "https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/contentPage?articleId=uxvtk52u-4153-mrlx-nvsq-h3pkk4r5k7zo&linkId=Healthcare_Transparency_in_Coverage&technicalNameForLink=Healthcare_Transparency_in_Coverage&userFriendlyNameForLink=Healthcare%20Transparency%20in%20Coverage&domain=Ben-HM&baseClientIndicator=Client&isUCCELink=true",
+      "t": "Healthcare Transparency in Coverage",
+      "r": [
+        108,
+        720,
+        201,
+        40
+      ]
+    },
+    {
+      "h": "/api/login-out",
+      "t": "Contact Us",
+      "r": [
+        108,
+        794,
+        81,
+        19
+      ]
+    },
+    {
+      "h": "/api/login-out",
+      "t": "Feedback",
+      "r": [
+        395,
+        615,
+        70,
+        19
+      ]
+    },
+    {
+      "h": "/api/login-out",
+      "t": "Protect Yourself From Website Fraud",
+      "r": [
+        395,
+        668,
+        268,
+        19
+      ]
+    },
+    {
+      "h": "https://alight.com/",
+      "t": "",
+      "r": [
+        790,
+        603,
+        254,
+        40
+      ]
+    },
+    {
+      "h": "https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8",
+      "t": "",
+      "r": [
+        774,
+        663,
+        119,
+        40
+      ]
+    },
+    {
+      "h": "https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&hl=en_US",
+      "t": "",
+      "r": [
+        909,
+        663,
+        135,
+        40
+      ]
+    },
+    {
+      "h": "https://www.alight.com/privacy",
+      "t": "Privacy Policy",
+      "r": [
+        108,
+        890,
+        82,
+        16
+      ]
+    },
+    {
+      "h": "https://www.alight.com/legal-terms",
+      "t": "Terms Of Use",
+      "r": [
+        214,
+        890,
+        80,
+        16
+      ]
+    },
+    {
+      "h": "https://www.alight.com/cookie-notice",
+      "t": "Cookie Notice",
+      "r": [
+        318,
+        890,
+        82,
+        16
+      ]
+    },
+    {
+      "h": "/api/login-out",
+      "t": "Cookie Settings [Do Not Sell or Share My Persona",
+      "r": [
+        424,
+        890,
+        374,
+        16
+      ]
+    }
+  ],
+  "headerKids": [
+    {
+      "d": 0,
+      "t": "div",
+      "c": "header-left",
+      "r": [
+        24,
+        28,
+        216,
+        48
+      ],
+      "txt": "",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 1,
+      "t": "div",
+      "c": "brand-container",
+      "r": [
+        24,
+        28,
+        216,
+        48
+      ],
+      "txt": "",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 2,
+      "t": "a",
+      "c": "",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 3,
+      "t": "img",
+      "c": "brand-logo",
+      "r": [
+        24,
+        28,
+        201,
+        48
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 0,
+      "t": "nav",
+      "c": "header-right",
+      "r": [
+        950,
+        32,
+        178,
+        40
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "flex",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 1,
+      "t": "button",
+      "c": "f-button progressive medium virtual-assistant-btn header-virtual-assistant",
+      "r": [
+        950,
+        32,
+        178,
+        40
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "flex",
+      "bg": "rgb(54, 124, 43)"
+    },
+    {
+      "d": 2,
+      "t": "span",
+      "c": "f-icon left icon-only",
+      "r": [
+        968,
+        40,
+        24,
+        24
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 3,
+      "t": "svg",
+      "c": "",
+      "r": [
+        968,
+        40,
+        24,
+        24
+      ],
+      "txt": "",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 4,
+      "t": "path",
+      "c": "",
+      "r": [
+        972,
+        43,
+        18,
+        17
+      ],
+      "txt": "",
+      "disp": "inline",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 4,
+      "t": "circle",
+      "c": "",
+      "r": [
+        975,
+        51,
+        2,
+        2
+      ],
+      "txt": "",
+      "disp": "inline",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 4,
+      "t": "circle",
+      "c": "",
+      "r": [
+        979,
+        51,
+        2,
+        2
+      ],
+      "txt": "",
+      "disp": "inline",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 4,
+      "t": "circle",
+      "c": "",
+      "r": [
+        982,
+        51,
+        2,
+        2
+      ],
+      "txt": "",
+      "disp": "inline",
+      "bg": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "d": 2,
+      "t": "span",
+      "c": "button-text",
+      "r": [
+        1000,
+        42,
+        110,
+        21
+      ],
+      "txt": "Virtual Assistant",
+      "disp": "block",
+      "bg": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}
