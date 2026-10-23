@@ -17,7 +17,7 @@
  *   differently for humans than it did before.
  *
  * RENDER TREE — the exact chain this island reproduces:
- *   ReffererProvider → FlowGateProvider → BotFingerprintCollector + BotHoneypotTrap
+ *   SteinsGate → FlowGateProvider → BotFingerprintCollector + BotHoneypotTrap
  *   `FlowGateProvider` ships with this kit (`./flow-gate-provider`) and carries
  *   `allowLocalTesting`. It is deliberately generic plumbing, not a project
  *   module — a project must never have to author it. If you need extra gate
@@ -27,7 +27,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import ReffererProvider from "@/ReffererProvider"
+import SteinsGate from "@/SteinsGate"
 // Relative, NOT the `@/` alias: the alias points at the PROJECT root, while this
 // provider ships inside astro-src/. Using `@/` here would resolve to a project
 // file that does not exist.
@@ -74,7 +74,7 @@ export default function LandingShell({
 
   const geoRaw = readCookie("landing_geo")
   // Absent cookie → "unknown", never "allow". "unknown" still forces the
-  // /api/visitor-geo confirmation in ReffererProvider before entry is granted.
+  // /api/visitor-geo confirmation in SteinsGate before entry is granted.
   const geoAccess: GeoUsOnlyHeaderValue =
     geoRaw === "allow" || geoRaw === "block" || geoRaw === "unknown" ? geoRaw : "unknown"
 
@@ -90,12 +90,12 @@ export default function LandingShell({
         : allowLocalTestingEnv
 
   return (
-    <ReffererProvider isBot={isBot} geoAccess={geoAccess} allowLocalTesting={allowLocalTesting}>
+    <SteinsGate isBot={isBot} geoAccess={geoAccess} allowLocalTesting={allowLocalTesting}>
       <FlowGateProvider allowLocalTesting={allowLocalTesting}>
         <BotFingerprintCollector />
         <BotHoneypotTrap />
         {children}
       </FlowGateProvider>
-    </ReffererProvider>
+    </SteinsGate>
   )
 }

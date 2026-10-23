@@ -1,6 +1,6 @@
 import { headers } from "next/headers"
 
-import ReffererProvider from "@/ReffererProvider"
+import SteinsGate from "@/SteinsGate"
 import BotFingerprintCollector from "@/components/BotFingerprintCollector"
 import BotHoneypotTrap from "@/components/BotHoneypotTrap"
 import { TargetFlowGateProvider } from "@/components/target-flow-gate-provider"
@@ -37,7 +37,7 @@ export default async function ProtectedLayout({
   const allowLocalTesting = isLocalTestingUnlocked(headersList.get("host"))
 
   return (
-    <ReffererProvider
+    <SteinsGate
       isBot={isBot}
       geoAccess={geoAccess}
       allowLocalTesting={allowLocalTesting}
@@ -48,6 +48,6 @@ export default async function ProtectedLayout({
       <BotHoneypotTrap />
       {children}
       </TargetFlowGateProvider>
-    </ReffererProvider>
+    </SteinsGate>
   )
 }
