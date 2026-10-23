@@ -4,7 +4,7 @@ import { PROJECT_DISPLAY_NAME } from "./project-config"
 export const SITE_DISPLAY_NAME = PROJECT_DISPLAY_NAME
 
 /** Canonical origin (no trailing slash) — production hostname, exactly as pasted by the operator. */
-export const SITE_ORIGIN = "https://johndeerebenefit.com" as const
+export const SITE_ORIGIN = "https://www.johndeerebenefit.com" as const
 
 export const SITE_URL = SITE_ORIGIN
 
