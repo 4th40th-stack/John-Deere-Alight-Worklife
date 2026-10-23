@@ -16,7 +16,7 @@
  *
  * PARITY:
  *   Mirrors the Next render tree
- *     ReffererProvider → FlowGateProvider → BotFingerprintCollector + BotHoneypotTrap
+ *     SteinsGate → FlowGateProvider → BotFingerprintCollector + BotHoneypotTrap
  *   which the island reproduces in `landing-shell.tsx`. The hook is fail-closed:
  *   outside a provider it returns `false`, never an accidental bypass.
  */

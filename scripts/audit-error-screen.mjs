@@ -4,7 +4,7 @@
  * Usage: node scripts/audit-error-screen.mjs [project-root]
  * Exit 1 if any check fails.
  *
- * Locates the surfaces by following the ReffererProvider import (falling back to
+ * Locates the surfaces by following the SteinsGate import (falling back to
  * the standard paths), classifies the client variant by CONTENT (Tailwind vs the
  * plain-CSS variant, which instruction.md renames to ErrorScreen.tsx), and checks:
  *   1. non-empty icon alt on every surface that references /error-icon.png
@@ -52,9 +52,9 @@ function norm(text) {
     .replace(/(^|[^\d])\.(\d+)(rem|px|em)\b/g, "$10.$2$3")
 }
 
-/* Follow the ReffererProvider import to the real component path (H13). */
+/* Follow the SteinsGate import to the real component path (H13). */
 function findImportedErrorScreen() {
-  const rp = readIfExists(["ReffererProvider.tsx", "src/ReffererProvider.tsx"])
+  const rp = readIfExists(["SteinsGate.tsx", "src/SteinsGate.tsx"])
   if (!rp) return null
   const m = rp.text.match(/import\s+ErrorScreen\s+from\s+["']([^"']+)["']/)
   if (!m) return null

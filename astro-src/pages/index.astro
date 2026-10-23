@@ -6,7 +6,7 @@
  * The middleware rewrites `/` to the built `public/index.html` for every request
  * that passes all gates and is not an allowlisted crawler. Denied bots never
  * reach here (middleware serves ErrorScreen first); a direct human visit still
- * meets the referrer gate inside the island (LandingShell → ReffererProvider).
+ * meets the referrer gate inside the island (LandingShell → SteinsGate).
  */
 import "../../app/globals.css"
 import "../styles/astro-font.css"
