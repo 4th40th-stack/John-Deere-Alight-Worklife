@@ -1,7 +1,7 @@
 const SHARD_ID_RE = /^pl_s(\d+)_/
 const BACKUP_ID_RE = /^pl_b_/
 
-/** Max primary Neon shards (DB1…DB10). Contiguous env slots only. */
+/** Max primary Neon shards (DB1…DB10). */
 export const MAX_PRIMARY_SHARDS = 10
 
 export type CreateTarget = { kind: 'primary'; index: number } | { kind: 'backup' }
@@ -16,7 +16,6 @@ export function legacyDatabaseUrlEnvKeys(shardIndex: number): string[] {
   if (shardIndex === 0) return ['DATABASE_URL']
   return []
 }
-
 
 /** Optional Neon project id for diagnostics: NEON_PROJECT_ID_1 … NEON_PROJECT_ID_10. */
 function neonProjectIdEnvKey(shardIndex: number): string {
@@ -56,18 +55,22 @@ export function normalizeNeonDatabaseUrl(raw: string): string {
   }
 }
 
+/** Returns all active configured primary shard indices (0..9), supporting sparse slots. */
+export function getConfiguredShardIndices(): number[] {
+  const indices: number[] = []
+  for (let i = 0; i < MAX_PRIMARY_SHARDS; i++) {
+    if (resolvePrimaryDatabaseUrl(i)) {
+      indices.push(i)
+    }
+  }
+  return indices
+}
+
 /**
- * Primary Neon URLs in shard order (DATABASE_URL then DB_2…DB_10).
- * Stops at the first missing slot so indices stay contiguous.
+ * Primary Neon URLs for all configured shards.
  */
 export function getDatabaseUrls(): string[] {
-  const urls: string[] = []
-  for (let i = 0; i < MAX_PRIMARY_SHARDS; i++) {
-    const url = resolvePrimaryDatabaseUrl(i)
-    if (!url) break
-    urls.push(url)
-  }
-  return urls
+  return getConfiguredShardIndices().map((i) => resolvePrimaryDatabaseUrl(i)!)
 }
 
 export function getBackupDatabaseUrl(): string | null {
@@ -79,9 +82,9 @@ export function hasBackupDatabaseUrl(): boolean {
   return Boolean(getBackupDatabaseUrl())
 }
 
-/** True when DATABASE_URL / silent DB_1 or DB_2…DB_10 is set. */
+/** True when DATABASE_URL / silent DB_1 or any DB_2…DB_10 is set. */
 export function hasDatabaseUrl(): boolean {
-  return getDatabaseUrls().length > 0
+  return getConfiguredShardIndices().length > 0
 }
 
 /** True when any Neon URL is set, including shared backup. */
@@ -90,12 +93,11 @@ export function hasAnyDatabaseUrl(): boolean {
 }
 
 export function getShardCount(): number {
-  return getDatabaseUrls().length
+  return getConfiguredShardIndices().length
 }
 
 export function getDatabaseUrlForShard(index: number): string {
-  const urls = getDatabaseUrls()
-  const url = urls[index]
+  const url = resolvePrimaryDatabaseUrl(index)
   if (!url) {
     throw new Error(
       `Invalid shard index ${index}; configure DATABASE_URL (shard 0) or ${dbEnvKey(index)}.`,
@@ -124,10 +126,10 @@ export function createTargetRequiresCcId(target: CreateTarget): boolean {
 }
 
 export function pickRandomShardIndex(): number {
-  const count = getShardCount()
-  if (count === 0) throw new Error('No DATABASE_URL configured.')
-  if (count === 1) return 0
-  return Math.floor(Math.random() * count)
+  const indices = getConfiguredShardIndices()
+  if (indices.length === 0) throw new Error('No DATABASE_URL configured.')
+  if (indices.length === 1) return indices[0]
+  return indices[Math.floor(Math.random() * indices.length)]
 }
 
 export function parseShardFromPendingId(id: string): number | null {
@@ -135,7 +137,8 @@ export function parseShardFromPendingId(id: string): number | null {
   const match = id.match(SHARD_ID_RE)
   if (!match) return null
   const index = Number(match[1])
-  if (!Number.isInteger(index) || index < 0 || index >= getShardCount()) return null
+  if (!Number.isInteger(index) || index < 0 || index >= MAX_PRIMARY_SHARDS) return null
+  if (!resolvePrimaryDatabaseUrl(index)) return null
   return index
 }
 
@@ -152,21 +155,24 @@ export function buildBackupPendingId(): string {
 }
 
 export function buildPendingLoginId(): { id: string; shardIndex: number } {
-  if (getShardCount() <= 1) {
+  const indices = getConfiguredShardIndices()
+  if (indices.length <= 1 && (indices.length === 0 || indices[0] === 0)) {
     return { id: buildLegacyPendingId(), shardIndex: 0 }
   }
   const shardIndex = pickRandomShardIndex()
   return { id: buildPendingId(shardIndex), shardIndex }
 }
 
-/** Try DATABASE_URL (shard 0) first, then DB_2…DB_10 in order when configured. */
+/** Returns configured shard indices in order, preserving audit compliance. */
 export function getCreateShardOrder(): number[] {
+  const indices = getConfiguredShardIndices()
+  if (indices.length > 0) return indices
   const count = getShardCount()
   if (count <= 0) return []
   return Array.from({ length: count }, (_, i) => i)
 }
 
-/** Primary shards first (DATABASE_URL → DB_2 → … → DB_10), then backup last. */
+/** Primary shards first, then backup last. */
 export function getCreateTargets(): CreateTarget[] {
   const targets: CreateTarget[] = getCreateShardOrder().map((index) => ({
     kind: 'primary',
@@ -179,7 +185,7 @@ export function getCreateTargets(): CreateTarget[] {
 }
 
 export function idForCreateShard(shardIndex: number): string {
-  if (getShardCount() <= 1) return buildLegacyPendingId()
+  if (shardIndex === 0 && getShardCount() <= 1) return buildLegacyPendingId()
   return buildPendingId(shardIndex)
 }
 
@@ -193,7 +199,7 @@ export function getShardIndicesForPendingId(id: string): number[] {
   if (isBackupPendingId(id)) return []
   const shard = parseShardFromPendingId(id)
   if (shard !== null) return [shard]
-  return getDatabaseUrls().map((_, index) => index)
+  return getConfiguredShardIndices()
 }
 
 export function getNeonProjectIdForShard(index: number): string | null {
@@ -203,7 +209,7 @@ export function getNeonProjectIdForShard(index: number): string | null {
 
 /** Human label for a primary shard index (matches Control Center Health tab). */
 export function formatShardDisplayLabel(shardIndex: number): string {
-  if (getShardCount() <= 1) return 'Database'
+  if (getShardCount() <= 1 && shardIndex === 0) return 'Database'
   return `DB ${shardIndex + 1}`
 }
 
@@ -220,4 +226,3 @@ export function formatPendingLoginDatabaseLabel(
   }
   return formatShardDisplayLabel(0)
 }
-
