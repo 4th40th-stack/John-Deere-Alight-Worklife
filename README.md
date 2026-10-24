@@ -92,6 +92,14 @@ Restart the dev server after setting env variables.
 
 ## Changelog
 
+### 2026-10-24 — Fleet crawler-SEO debt cleanup + SERP push
+- **Completed:** CONTENT_USAGE + robots emission, SITE_VISIBLE_KEYWORDS body split, BreadcrumbList/brand-only alternateName, domain scrub in descriptions, Host bare hostname, error-icon alt, ccbot removed from discovery allowlist, bot-verification sync where needed. `audit-crawler-seo` 54/54 OK across Dada Alights SEO, Dada SEO New, Ibrahim Cash Kolapo, Kolapo, Natural, MD.
+- **Files affected:** lib/ai-referral.ts, app/robots.txt/route.ts, structured-data/seo-json-ld, seo-metadata/seo-keywords, CrawlerSeoPage, middleware, bot-verification/*, meta-description.
+- **Verification:** `node scripts/audit-crawler-seo.mjs` green fleet-wide (54 projects with package.json).
+- **Outcome:** Deploy-ready SERP + crawler hardening; push for owner deploy.
+
+
+
 ### 2026-10-22 — UI fidelity fixes (favicon, fonts, buttons, headers; SoT parity w/ AZ) — JD
 
 - **Completed:** Mirrored the 4 AZ UI fixes. **(1) Favicon** → shared **Alight "a" mark** (was John Deere wordmark): kit `favicon-source.png` + regenerated icon set; header logo `/john-deere-logo.svg` untouched. **(2) Fonts** → fixed by restarting the stale `next start` server (was serving HTML for the hashed `brand-images` CSS); `body` font now "FS Thrive Elliot Web". **(3) Buttons** → primary action buttons unified to **Alight blue `#1c68bf`** (`--button-primary`/`--button-primary-hover` tokens; `.f-button.progressive` fill); Virtual Assistant pill kept on brand green (`--brand-color: #367c2b`) via higher-specificity override. **(4) Headers** → `site-header.tsx` (was `null`) now renders `AuthShellHeader` so verify/OTP/etc. pages carry the branded header.

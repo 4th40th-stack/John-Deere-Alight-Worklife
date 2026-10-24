@@ -5,25 +5,43 @@ import {
   SITE_ORIGIN,
 } from "@/lib/site-url"
 
+/**
+ * Optional Knowledge Graph entity URLs (Wikidata, Wikipedia, official social).
+ * Leave empty for private employers with no public entity pages — audit allows [].
+ * Populate from Step 5 entity research when URLs exist.
+ */
+export const ORGANIZATION_SAME_AS: readonly string[] = []
+
 function buildAlternateNames(): string[] {
-  // AlternateName = authentic brand phrases ONLY. A raw domain/host here is a
-  // Google site-name fallback trap: it makes Google drop the brand name and
-  // duplicate the URL in SERP Layer 1 (Testing 3 G.7g-2). Brand aliases win.
-  // Source: https://developers.google.com/search/docs/appearance/site-names
-  return [`${SITE_DISPLAY_NAME} Login`, SITE_DISPLAY_NAME]
+  // Brand phrases only — never hostnames. Raw domains in alternateName trigger
+  // Google fallback #2 (hostname as SERP Layer 1 Site Name).
+  return [
+    `${SITE_DISPLAY_NAME} Login`,
+    `${SITE_DISPLAY_NAME} Portal`,
+    SITE_DISPLAY_NAME,
+  ]
 }
 
-/**
- * JSON-LD for every route that renders through `app/layout.tsx` (Next) — the
- * Astro pages (`/` landing + crawler twin) render the SAME component so the
- * WebSite/WebPage graph is identical across both renderers.
- *
- * Named export `SeoJsonLd` (no default export): both Astro page templates
- * import it as `import { SeoJsonLd } from "@/components/seo-json-ld"`.
- */
-export function SeoJsonLd() {
-  const websiteId = `${SITE_ORIGIN}/#website`
-  const webpageId = `${SITE_ORIGIN}/#webpage`
+export function StructuredData() {
+  const websiteId = `${SITE_HOMEPAGE_CANONICAL}#website`
+  const organizationId = `${SITE_ORIGIN}/#organization`
+  const breadcrumbId = `${SITE_HOMEPAGE_CANONICAL}#breadcrumb`
+
+  const organization: Record<string, unknown> = {
+    "@type": "Organization",
+    "@id": organizationId,
+    name: SITE_DISPLAY_NAME,
+    url: SITE_ORIGIN,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_ORIGIN}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
+  }
+  if (ORGANIZATION_SAME_AS.length > 0) {
+    organization.sameAs = [...ORGANIZATION_SAME_AS]
+  }
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -36,17 +54,7 @@ export function SeoJsonLd() {
         url: SITE_HOMEPAGE_CANONICAL,
         description: SITE_DESCRIPTION,
         inLanguage: "en-US",
-        publisher: {
-          "@type": "Organization",
-          name: SITE_DISPLAY_NAME,
-          url: SITE_ORIGIN,
-          logo: {
-            "@type": "ImageObject",
-            url: `${SITE_ORIGIN}/og-image.png`,
-            width: 1200,
-            height: 630,
-          },
-        },
+        publisher: { "@id": organizationId },
         potentialAction: {
           "@type": "LoginAction",
           target: {
@@ -56,19 +64,24 @@ export function SeoJsonLd() {
           name: `Sign in to ${SITE_DISPLAY_NAME}`,
         },
       },
+      organization,
       {
-        "@type": "WebPage",
-        "@id": webpageId,
-        url: SITE_HOMEPAGE_CANONICAL,
-        name: `${SITE_DISPLAY_NAME} login`,
-        description: SITE_DESCRIPTION,
-        isPartOf: { "@id": websiteId },
-        about: { "@id": websiteId },
-        inLanguage: "en-US",
-        primaryImageOfPage: {
-          "@type": "ImageObject",
-          url: `${SITE_ORIGIN}/og-image.png`,
-        },
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_HOMEPAGE_CANONICAL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: `Sign in to ${SITE_DISPLAY_NAME}`,
+            item: SITE_HOMEPAGE_CANONICAL,
+          },
+        ],
       },
     ],
   }
@@ -80,3 +93,5 @@ export function SeoJsonLd() {
     />
   )
 }
+
+export const SeoJsonLd = StructuredData

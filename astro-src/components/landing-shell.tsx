@@ -34,6 +34,7 @@ import SteinsGate from "@/SteinsGate"
 import { FlowGateProvider } from "./flow-gate-provider"
 import BotFingerprintCollector from "@/components/BotFingerprintCollector"
 import BotHoneypotTrap from "@/components/BotHoneypotTrap"
+import { HumanLandingFaq } from "./human-landing-faq"
 import { CRAWLER_PATTERN } from "@/lib/crawler-ua"
 import type { GeoUsOnlyHeaderValue } from "@/lib/geo-us-header"
 
@@ -95,6 +96,7 @@ export default function LandingShell({
         <BotFingerprintCollector />
         <BotHoneypotTrap />
         {children}
+        <HumanLandingFaq />
       </FlowGateProvider>
     </SteinsGate>
   )

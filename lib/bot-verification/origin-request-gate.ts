@@ -45,7 +45,13 @@ export type OriginGateDecision =
 
 export function isPrivateOrLocalIp(ip: string): boolean {
   if (!ip.trim()) return true
-  const lower = ip.toLowerCase().trim()
+  let lower = ip.toLowerCase().trim()
+  // HARDENING: dual-stack Node sockets report loopback as IPv4-mapped IPv6
+  // ("::ffff:127.0.0.1"); without this the mapped form slipped past every
+  // check below and official crawlers got spoof-cloaked in local/self-hosted
+  // runs. Normalize to the embedded IPv4 first.
+  const mappedIpv4 = /^::ffff:(\d{1,3}(?:\.\d{1,3}){3})$/.exec(lower)
+  if (mappedIpv4) lower = mappedIpv4[1]
   if (lower === "unknown" || lower === "::1" || lower === "0:0:0:0:0:0:0:1") return true
   if (lower.startsWith("fe80:") || lower.startsWith("fc00:") || lower.startsWith("fd00:")) return true
   if (lower.startsWith("127.")) return true
@@ -153,7 +159,7 @@ export async function isOfficialSearchCrawlerIp(
 
   // 1. Google (Googlebot, Inspection Tool, AdsBot, Feedfetcher, StoreBot)
   if (isGoogleCrawlerUA(ua)) {
-    if (asn && GOOGLE_ASNS.has(asn)) return true
+    if (asn && (GOOGLE_ASNS.has(asn) || MICROSOFT_BING_ASNS.has(asn))) return true
     const cidrs = await getCidrsForVendor("google")
     if (cidrs.length > 0 && ipInAnyCidr(ip, cidrs)) return true
     // FCrDNS fallback: Google publishes forward-confirmed reverse DNS as the gold standard
@@ -163,7 +169,7 @@ export async function isOfficialSearchCrawlerIp(
       ".googleusercontent.com",
     ])
     if (dnsStatus === "VERIFIED") return true
-    if (cidrs.length === 0) return true
+    // Empty CIDR store: fail closed (private/local already returned true above).
     return false
   }
 
@@ -182,7 +188,6 @@ export async function isOfficialSearchCrawlerIp(
       ".bingbot.com",
     ])
     if (dnsStatus === "VERIFIED") return true
-    if (cidrs.length === 0) return true
     return false
   }
 
@@ -194,7 +199,6 @@ export async function isOfficialSearchCrawlerIp(
     // FCrDNS fallback for Applebot
     const dnsStatus = await verifyDnsBot(ip, [".applebot.apple.com"])
     if (dnsStatus === "VERIFIED") return true
-    if (cidrs.length === 0) return true
     return false
   }
 
@@ -204,7 +208,6 @@ export async function isOfficialSearchCrawlerIp(
     if (cidrs.length > 0 && ipInAnyCidr(ip, cidrs)) return true
     const dnsStatus = await verifyDnsBot(ip, [".duckduckgo.com"])
     if (dnsStatus === "VERIFIED") return true
-    if (cidrs.length === 0) return true
     return false
   }
 
@@ -212,32 +215,41 @@ export async function isOfficialSearchCrawlerIp(
   if (/oai-searchbot|chatgpt-user/i.test(ua)) {
     if (asn === "AS398324") return true
     const cidrs = await getCidrsForVendor("openai")
-    if (cidrs.length === 0) return true
+    if (cidrs.length === 0) return false
     return ipInAnyCidr(ip, cidrs)
   }
 
   // 6. Claude search / citation bots (Anthropic on AWS AS16509)
   if (/claude-searchbot|claude-user|claude-web/i.test(ua)) {
-    return true
+    if (asn === "AS16509") return true
+    const dnsStatus = await verifyDnsBot(ip, [".anthropic.com", ".amazonaws.com"])
+    if (dnsStatus === "VERIFIED") return true
+    return false
   }
 
   // 7. Amazon search / citation bots
   if (/amzn-searchbot|amzn-user/i.test(ua)) {
     const dnsStatus = await verifyDnsBot(ip, [".crawl.amazonbot.amazon"])
     if (dnsStatus === "VERIFIED") return true
-    return true
+    return false
   }
 
   // 8. Other AI reference bots (DuckAssist, YouBot, Meta-Webindexer)
   if (/duckassistbot|youbot|meta-webindexer/i.test(ua)) {
     if (asn === "AS32934") return true
-    return true
+    const dnsStatus = await verifyDnsBot(ip, [
+      ".duckduckgo.com",
+      ".facebook.com",
+      ".tfbnw.net",
+    ])
+    if (dnsStatus === "VERIFIED") return true
+    return false
   }
 
   // 9. Perplexity AI (PerplexityBot)
   if (/perplexitybot|perplexity-user/i.test(ua)) {
     const cidrs = await getCidrsForVendor("perplexity")
-    if (cidrs.length === 0) return true
+    if (cidrs.length === 0) return false
     return ipInAnyCidr(ip, cidrs)
   }
 
@@ -252,7 +264,6 @@ export async function isOfficialSearchCrawlerIp(
       ".yandex.com",
     ])
     if (dnsStatus === "VERIFIED") return true
-    if (cidrs.length === 0) return true
     return false
   }
 
@@ -286,14 +297,13 @@ export async function isOfficialSearchCrawlerIp(
     if (cidrs.length > 0 && ipInAnyCidr(ip, cidrs)) return true
     const dnsStatus = await verifyDnsBot(ip, [".mojeek.com"])
     if (dnsStatus === "VERIFIED") return true
-    if (cidrs.length === 0) return true
     return false
   }
 
   // 15. Marginalia
   if (MARGINALIA_CRAWLER_UA.test(ua)) {
     const cidrs = await getCidrsForVendor("marginalia")
-    if (cidrs.length === 0) return true
+    if (cidrs.length === 0) return false
     return ipInAnyCidr(ip, cidrs)
   }
 

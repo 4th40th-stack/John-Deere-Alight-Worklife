@@ -59,15 +59,13 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
       <main class="main-wrapper">
         <section class="login-section" aria-label="Account login">
           <div class="mb-xl login-section-heading">
-            <nav aria-label="Breadcrumb" class="mb-3 text-xs text-neutral-500">
-              <ol class="flex items-center space-x-1.5 m-none p-none list-none">
-                <li><a href="/" class="hover:underline text-neutral-600">Home</a></li>
-                <li><span class="mx-1 text-neutral-400">/</span></li>
-                <li><a href="https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/login?forkPage=false" class="hover:underline text-neutral-600">Sign In</a></li>
-                <li><span class="mx-1 text-neutral-400">/</span></li>
-                <li class="font-medium text-neutral-800" aria-current="page">{SITE_DISPLAY_NAME}</li>
-              </ol>
-            </nav>
+            <nav aria-label="Breadcrumb" class="mb-4 text-xs text-neutral-500">
+          <ol class="flex items-center space-x-1.5">
+            <li><a href="/" class="hover:underline">Home</a></li>
+            <li><span class="mx-1">›</span></li>
+            <li class="font-medium text-neutral-800" aria-current="page">Sign in to {SITE_DISPLAY_NAME}</li>
+          </ol>
+        </nav>
             <h1 class="welcome-title bold-text text-5xl m-none">{SITE_DISPLAY_NAME}</h1>
           </div>
 

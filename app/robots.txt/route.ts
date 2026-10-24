@@ -29,6 +29,8 @@ const CRAWL_DISALLOW = [
   "/new-user-password",
   "/create-password",
   "/zip-code",
+  "/index.html",
+  "/crawler-seo.html",
 ] as const
 
 const SEARCH_AGENTS = [

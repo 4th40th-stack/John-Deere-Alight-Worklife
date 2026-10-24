@@ -68,6 +68,25 @@ function extractStringExport(source, exportName) {
   return match ? match[2].replace(/\\n/g, " ").trim() : null
 }
 
+/** Resolve LAYOUT_DESCRIPTION when authored as `${SITE_DISPLAY_NAME} …` or a plain string. */
+function extractBrandFirstDescription(source, brand) {
+  const tmpl = source.match(
+    /export const LAYOUT_DESCRIPTION\s*=\s*`\$\{SITE_DISPLAY_NAME\}([^`]*)`/,
+  )
+  if (tmpl && brand) {
+    return `${brand}${tmpl[1].replace(/\\n/g, " ")}`.trim()
+  }
+  const plain = extractStringExport(source, "LAYOUT_DESCRIPTION")
+  if (plain && plain.includes("${SITE_DISPLAY_NAME}") && brand) {
+    return plain.replace(/\$\{SITE_DISPLAY_NAME\}/g, brand).trim()
+  }
+  return plain
+}
+
+function extractSiteDisplayName(source) {
+  return extractStringExport(source, "SITE_DISPLAY_NAME")
+}
+
 async function resolveApexHost() {
   const siteUrlFile = await firstExisting(SITE_URL_CANDIDATES)
   if (!siteUrlFile) return ""
@@ -136,11 +155,21 @@ async function main() {
   const apexHost = await resolveApexHost()
   let primaryDescription = null
 
+  const siteUrlFile = await firstExisting(SITE_URL_CANDIDATES)
+  let siteDisplayName = ""
+  if (siteUrlFile) {
+    try {
+      siteDisplayName = extractSiteDisplayName(await readFile(siteUrlFile, "utf8")) || ""
+    } catch {
+      // ignore
+    }
+  }
+
   // 1. Check lib/meta-description.ts (LAYOUT_DESCRIPTION)
   const metaFile = await firstExisting(META_CANDIDATES)
   if (metaFile) {
     const source = await readFile(metaFile, "utf8")
-    primaryDescription = extractStringExport(source, "LAYOUT_DESCRIPTION")
+    primaryDescription = extractBrandFirstDescription(source, siteDisplayName)
     if (!primaryDescription) {
       allErrors.push(
         `${path.relative(ROOT, metaFile)}: LAYOUT_DESCRIPTION export not found.`,
@@ -152,6 +181,11 @@ async function main() {
         apexHost,
       )
       allErrors.push(...errs)
+      if (siteDisplayName && !primaryDescription.startsWith(siteDisplayName)) {
+        allErrors.push(
+          `${path.relative(ROOT, metaFile)} (LAYOUT_DESCRIPTION): must lead with SITE_DISPLAY_NAME ("${siteDisplayName}") — SERP Layer 5 brand-first rule.`,
+        )
+      }
     }
   } else {
     // Fallback to lib/seo-metadata.ts (SITE_DESCRIPTION)

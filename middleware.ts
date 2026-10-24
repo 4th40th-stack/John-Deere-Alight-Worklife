@@ -28,6 +28,9 @@ import { isYandexVerificationPath } from "@/lib/yandex-verification"
 import { isTrustedCrawlerUserAgent } from "@/utils/botDetection"
 import { CRAWLER_PATTERN } from "@/lib/crawler-ua"
 import { isCrawlerSeoPreviewUnlocked } from "@/lib/crawler-seo-preview"
+import { isAllowedSearchOrBacklinkReferrer } from "@/lib/allowed-referrer"
+import { LANDING_ACCESS_COOKIE } from "@/lib/landing-access-cookie"
+import { SITE_HOMEPAGE_CANONICAL } from "@/lib/site-url"
 
 // IndexNow key files (/{32-hex}.txt) are allowed via isUngatedSeoPath().
 
