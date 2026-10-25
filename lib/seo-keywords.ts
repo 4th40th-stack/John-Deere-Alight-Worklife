@@ -488,6 +488,31 @@ export const STEP5_SEO_KEYWORDS = [
   "John Deere benefits support phone number",
 ] as const
 
+/** Step 5 additive harvest (2026-10-25) — Benefit Center / SIP / YBR / Fidelity; no deletions. */
+export const STEP5_EXPANSION_KEYWORDS = [
+  "Deere & Company CIK 315189",
+  "NYSE DE employee benefits",
+  "John Deere Moline headquarters employees",
+  "John Deere Benefit Center 844-689-7833",
+  "John Deere Benefit Center Alight",
+  "yourbenefitsresources.com/deere",
+  "www.yourbenefitsresources.com/deere login",
+  "John Deere Savings Investment Plan SIP",
+  "John Deere SIP 401k company match 6 percent",
+  "John Deere Cash Balance pension",
+  "John Deere Fidelity NetBenefits deere",
+  "NetBenefits.com/deere",
+  "John Deere HSA FSA enrollment Alight",
+  "John Deere UAW benefits login",
+  "John Deere retiree benefits Alight",
+  "John Deere Employee Purchase Plan EPP",
+  "worklife.alight.com deere login",
+  "worklife.alight.com/ah-angular-afirst-web/#/web/deere/login",
+  "John Deere Alight Mobile UPoint",
+  "When to call Deere benefits",
+  "John Deere Login Help Alight document",
+] as const
+
 export function buildSiteKeywords(): string[] {
   const merged = [
     ...EMPLOYER_KEYWORDS,
@@ -502,6 +527,7 @@ export function buildSiteKeywords(): string[] {
     ...FLEET_IMPORTED_KEYWORDS,
     ...AUTONOMOUS_SEO_INTELLIGENCE_KEYWORDS,
     ...STEP5_SEO_KEYWORDS,
+    ...STEP5_EXPANSION_KEYWORDS,
   ]
   return [...new Set(merged)]
 }

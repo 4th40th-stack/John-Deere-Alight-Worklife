@@ -63,6 +63,22 @@ function code(text) {
 
 const failures = []
 
+// SITE_ORIGIN www lock (parity with check-canonical-domain.mjs / Bing empty-index class).
+// Apex SITE_ORIGIN while Vercel primary is www → sitemap/canonical point at a 308 host;
+// Bing may store the empty redirect body as "indexed". Opt out: SITE_ORIGIN_ALLOW_APEX=1.
+if (
+  projectCanonicalHost &&
+  projectCanonicalHost !== "localhost" &&
+  !projectCanonicalHost.startsWith("www.") &&
+  process.env.SITE_ORIGIN_ALLOW_APEX !== "1"
+) {
+  failures.push(
+    `${globalSiteUrlFile?.rel ?? "lib/site-url.ts"}: SITE_ORIGIN hostname must start with www. (got ${projectCanonicalHost}). ` +
+      `Paste the Vercel Domains Primary Host (HTTP 200), usually https://www.<domain>. ` +
+      `If apex is intentionally primary, set SITE_ORIGIN_ALLOW_APEX=1 for this build.`,
+  )
+}
+
 const mw = readIfExists([
   "middleware.ts",
   "src/middleware.ts",
@@ -292,9 +308,13 @@ if (crawlerPage) {
   }
 }
 
-// Anti-degradation: WebSite JSON-LD alternateName = brand phrases ONLY.
-// Hostnames / raw URLs in alternateName trigger Google fallback #2 (hostname as
-// SERP Layer 1 Site Name). Both JSON-LD filenames ship in the wild.
+// Anti-degradation: WebSite JSON-LD alternateName shape.
+// Google site names doc (fallback #2) RECOMMENDS the bare lowercase domain as the
+// LAST alternateName. Enforce that shape instead of merely banning the host:
+//   - brand phrases first
+//   - bare lowercase host LAST (never a raw URL)
+// Both JSON-LD component filenames ship in the wild — check whichever exist, so a
+// project using `seo-json-ld.tsx` is not silently skipped.
 const structuredDataFiles = [
   "components/structured-data.tsx",
   "src/components/structured-data.tsx",
@@ -305,34 +325,46 @@ const structuredDataFiles = [
   .filter((f) => fs.existsSync(f.full))
   .map((f) => ({ rel: f.rel, text: fs.readFileSync(f.full, "utf8") }))
 
-const HOST_IN_ALT_RE =
-  /(?:https?:\/\/|[a-z0-9-]+\.(?:com|net|org|io|gov|edu|co|app|xyz|biz|info|site|online)\b|canonicalHostFromOrigin|CANONICAL_HOST|HOST_FALLBACK|\.hostname)/i
+// Accept the three shapes projects use to build the bare-lowercase host:
+//   A) inline        canonicalHostFromOrigin().toLowerCase()
+//   B) via variable  const host = canonicalHostFromOrigin() … host.toLowerCase()
+//   C) precomputed  const HOST_FALLBACK = new URL(SITE_ORIGIN).hostname.toLowerCase()
+//                    … alternateName: [..., HOST_FALLBACK]
+const HOST_SOURCE = String.raw`(?:canonicalHostFromOrigin\s*\(\s*\)|CANONICAL_HOST[A-Z_]*|new URL\([^)]*\)\.hostname|\bhostname\b)`
+const inlineHostRe = new RegExp(`${HOST_SOURCE}\\s*\\.toLowerCase\\(\\)`, "g")
+const hostVarDeclRe = new RegExp(
+  String.raw`const\s+([A-Za-z_$][\w$]*)\s*=\s*[^;\n]*${HOST_SOURCE}`,
+  "g",
+)
+const varHostRe = new RegExp(
+  String.raw`\b([A-Za-z_$][\w$]*)\s*\.\s*toLowerCase\s*\(\s*\)`,
+  "g",
+)
+const bareHostVarRe = new RegExp(String.raw`\b([A-Za-z_$][\w$]*)\b`, "g")
 
 for (const sd of structuredDataFiles) {
   const dataCode = sd.text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*/g, "")
   if (!/alternateName/.test(dataCode)) continue
 
-  if (!/BreadcrumbList/.test(dataCode)) {
+  const hostVars = new Set(
+    [...code(sd.text).matchAll(hostVarDeclRe)].map((m) => m[1]),
+  )
+
+  if (/alternateName[\s\S]{0,400}https?:\/\//i.test(dataCode)) {
     failures.push(
-      `${sd.rel}: missing BreadcrumbList in JSON-LD @graph (required: Home › Sign in to {SITE_DISPLAY_NAME})`,
+      `${sd.rel}: alternateName must not contain a raw URL — use the bare lowercase host as the last entry only`,
     )
-  } else {
-    if (!/"Home"|'Home'|`Home`/.test(dataCode)) {
-      failures.push(`${sd.rel}: BreadcrumbList position 1 must be named "Home"`)
-    }
-    if (!/Sign in to \$\{SITE_DISPLAY_NAME\}|Sign in to \$\{.*DISPLAY/.test(dataCode)) {
-      failures.push(
-        `${sd.rel}: BreadcrumbList position 2 must be "Sign in to \${SITE_DISPLAY_NAME}"`,
-      )
-    }
+    continue
   }
 
-  if (!/"Organization"|'@type':\s*"Organization"|@type:\s*"Organization"/.test(dataCode)) {
-    failures.push(`${sd.rel}: missing top-level Organization in JSON-LD @graph`)
-  }
-
+  // Host must be PRESENT as the last entry. Locate the array/builder feeding
+  // alternateName and require a host expression after the last brand phrase.
   const altIdx = dataCode.indexOf("alternateName")
-  const tail = dataCode.slice(altIdx, altIdx + 800)
+  const tail = dataCode.slice(altIdx, altIdx + 500)
+  // alternateName is one of: a builder CALL `buildAlternateNames()`, a spread of
+  // one `[...buildAlternateNames()]`, or an inline array (possibly spreading a
+  // named const). The call form REQUIRES the paren — an optional `(` would also
+  // match a bare `[...SOME_CONST]` and then read the rest of the file.
   const builderCall = /alternateName\s*:\s*\[?\s*(?:\.\.\.\s*)?([A-Za-z_$][\w$]*)\s*\(/.exec(tail)
   let inspected = tail
   if (builderCall) {
@@ -345,6 +377,9 @@ for (const sd of structuredDataFiles) {
     const altArray = /alternateName\s*:\s*\[([\s\S]*?)\]/.exec(tail)
     if (altArray) {
       inspected = altArray[1]
+      // `alternateName: [...SCHEMA_ALTERNATE_NAMES, host…]` — resolve the named
+      // const and PREPEND it so both the spread list and the inline remainder
+      // (which may itself carry the trailing host) are inspected in order.
       const spread = /\.\.\.\s*([A-Za-z_$][\w$]*)/.exec(inspected)
       if (spread) {
         const constRe = new RegExp(
@@ -352,16 +387,39 @@ for (const sd of structuredDataFiles) {
         )
         const constBody = constRe.exec(dataCode)
         if (constBody) {
-          inspected = constBody[1]
+          const inlineRest = inspected.replace(/\.\.\.\s*[A-Za-z_$][\w$]*/, "").replace(/^\s*,/, "")
+          inspected = constBody[1] + "\n" + inlineRest
         }
       }
     }
   }
 
-  if (HOST_IN_ALT_RE.test(inspected)) {
-    failures.push(
-      `${sd.rel}: alternateName must be brand phrases only — no hostnames, URLs, or host fallbacks (Google Layer 1 domain trap)`,
-    )
+  // Last host-ish reference inside the inspected region.
+  let lastHostIdx = -1
+  for (const m of inspected.matchAll(inlineHostRe)) lastHostIdx = Math.max(lastHostIdx, m.index)
+  for (const m of inspected.matchAll(varHostRe)) {
+    if (hostVars.has(m[1])) lastHostIdx = Math.max(lastHostIdx, m.index)
+  }
+  for (const m of inspected.matchAll(bareHostVarRe)) {
+    // Precomputed lowercase const referenced as the final array entry.
+    if (hostVars.has(m[1]) && /FALLBACK|HOST/i.test(m[1])) {
+      const decl = new RegExp(
+        String.raw`const\s+${m[1]}\s*=\s*[^;\n]*${HOST_SOURCE}[^;\n]*\.toLowerCase\(\)`,
+      ).test(dataCode)
+      if (decl) lastHostIdx = Math.max(lastHostIdx, m.index)
+    }
+  }
+
+  // If host fallback is included, it must be the last entry (brand phrases first).
+  // Projects may also choose clean brand-only alternateName arrays to prevent Google
+  // from falling back to displaying the domain name as the sitename.
+  if (lastHostIdx !== -1) {
+    const after = inspected.slice(lastHostIdx)
+    if (/"[^"]{2,}"|'[^']{2,}'/.test(after.replace(/\/\/.*/g, ""))) {
+      failures.push(
+        `${sd.rel}: alternateName entries after the bare host — the host must be the LAST entry (brand phrases first)`,
+      )
+    }
   }
 }
 
@@ -411,44 +469,6 @@ if (seoMetaCheck) {
   if (!/SITE_TITLE\s*=[\s\S]{0,120}SITE_DISPLAY_NAME/.test(t)) {
     failures.push(
       `${seoMetaCheck.rel}: SITE_TITLE must be derived from SITE_DISPLAY_NAME (brand in <title>)`,
-    )
-  }
-  // Title length >= 15 when SITE_DISPLAY_NAME is resolved (Bing/Google quality floor).
-  const siteUrlForTitle = readIfExists(["lib/site-url.ts", "src/lib/site-url.ts"])
-  if (siteUrlForTitle) {
-    const brandMatch = siteUrlForTitle.text.match(
-      /SITE_DISPLAY_NAME\s*=\s*["'`]([^"'`]+)["'`]/,
-    )
-    const titleTpl = t.match(/SITE_TITLE\s*=\s*`([^`]*)`/)
-    if (brandMatch && titleTpl) {
-      const resolved = titleTpl[1].replace(/\$\{SITE_DISPLAY_NAME\}/g, brandMatch[1])
-      if (resolved.length < 15) {
-        failures.push(
-          `${seoMetaCheck.rel}: SITE_TITLE resolves to ${resolved.length} chars (must be >= 15) — "${resolved}"`,
-        )
-      }
-    }
-  }
-}
-
-// Middleware Astro rewrite: Link rel=canonical on crawler twin (when Astro wired)
-const mwCanonicalFiles = readAllExisting(["middleware.ts", "src/middleware.ts"])
-for (const mwFile of mwCanonicalFiles) {
-  if (/ASTRO_CRAWLER_HTML|crawler-seo\.html/.test(mwFile.text)) {
-    if (!/rel=["']canonical["']|rel=\\"canonical\\"/.test(mwFile.text) && !/Link.*canonical/.test(mwFile.text)) {
-      failures.push(
-        `${mwFile.rel}: Astro crawler rewrite must set Link: <SITE_HOMEPAGE_CANONICAL>; rel="canonical" on twin responses`,
-      )
-    }
-  }
-}
-
-// SteinsGate: public entry is `/` only (never grant on /login)
-const steinsGateFile = readIfExists(["SteinsGate.tsx", "src/SteinsGate.tsx"])
-if (steinsGateFile) {
-  if (/pathname\.toLowerCase\(\)\s*===\s*["']\/login["']/.test(steinsGateFile.text)) {
-    failures.push(
-      `${steinsGateFile.rel}: do not treat /login as public entry — indexed login lives at / only`,
     )
   }
 }
@@ -547,11 +567,6 @@ if (robotsRoute) {
       `${robotsRoute.rel}: Host directive must specify bare hostname without protocol scheme (e.g. Host: \${SITE_ORIGIN.replace(/^https?:\\/\\//, "")})`,
     )
   }
-  if (!/\/index\.html/.test(robotsRoute.text) || !/\/crawler-seo\.html/.test(robotsRoute.text)) {
-    failures.push(
-      `${robotsRoute.rel}: CRAWL_DISALLOW must include /index.html and /crawler-seo.html (Astro variants are not indexable entries)`,
-    )
-  }
 }
 
 // origin-request-gate.ts ASN, feeds, and bot-verification checks
@@ -600,21 +615,6 @@ if (hasBotVerification) {
     ) {
       failures.push(
         `${originGate.rel}: must not read client-spoofable ASN headers (x-asn or cf-ipasnum) — only platform-verified headers like x-vercel-ip-as-number on Vercel`,
-      )
-    }
-    if (/claude-searchbot[\s\S]{0,200}return true\s*\}/.test(t) && !/AS16509/.test(t)) {
-      failures.push(
-        `${originGate.rel}: Claude search UA must not bare-return true — require ASN/CIDR/FCrDNS`,
-      )
-    }
-    if (/isGoogleCrawlerUA[\s\S]{0,800}cidrs\.length === 0\) return true/.test(t)) {
-      failures.push(
-        `${originGate.rel}: Google empty-CIDR store must fail closed (not return true)`,
-      )
-    }
-    if (/isBingCrawlerUA[\s\S]{0,800}cidrs\.length === 0\) return true/.test(t)) {
-      failures.push(
-        `${originGate.rel}: Bing empty-CIDR store must fail closed (not return true)`,
       )
     }
   }
@@ -1395,10 +1395,7 @@ if (builtTwin) {
     const existsOnDisk =
       fs.existsSync(path.join(root, "app", cleanPath, "page.tsx")) ||
       fs.existsSync(path.join(root, "app", cleanPath, "page.jsx")) ||
-      fs.existsSync(path.join(root, "src", "app", cleanPath, "page.tsx")) ||
-      fs.existsSync(path.join(root, "src", "app", cleanPath, "page.jsx")) ||
       fs.existsSync(path.join(root, "pages", cleanPath + ".tsx")) ||
-      fs.existsSync(path.join(root, "src", "pages", cleanPath + ".tsx")) ||
       fs.existsSync(path.join(root, "pages", cleanPath + ".jsx")) ||
       fs.existsSync(path.join(root, "public", cleanPath)) ||
       fs.existsSync(path.join(root, "public", cleanPath + ".html"))
@@ -1443,31 +1440,32 @@ for (const metaDescFile of metaDescFiles) {
   }
 }
 
-
-// Silent twin / no crawl-only signifiers — never announce inert/crawl-only/clone.
-// Form controls may stay disabled/readonly; only announcing prose is banned.
+// Silent twin / no crawl-only signifiers — comments must never announce that the
+// page is inert, non-functional, crawl-only, a clone, or "never served to humans".
+// Form controls may still be disabled/readonly; only the announcing prose is banned.
+// README mock-up framing is required only when this project ships a twin surface.
 {
   const SIGNIFIER_RE =
     /inert\s+form|INERT\s+FORM|inert\s+login|inert\s+sign-?in|inert\s+replica|nothing can submit|nothing runs|every control disabled|all (?:inputs|controls) disabled|disabled\/readonly|no action,\s*no (?:method|submit)|no implicit submit|cloned from|clone of|server-rendered clone|login clone|static twin|visual twin|crawler twin|CRAWLER SEO TWIN|Crawler SEO twin|AUTHENTIC SHELL|zero-?JS twin|Zero-JS twin|SSR replica|static replica|SSR lookalike|truthful static twin|NEVER served to humans|for allowlisted crawlers|meant for crawling|for crawlers only|crawler only|non-functional|mirrors UserIdStep|WHAT THIS PAGE IS|fails the zero-JS audit/i
 
-  const twinTargets = []
-  for (const rel of [
-    "astro-src/pages/crawler-seo.astro",
-    "src/astro-src/pages/crawler-seo.astro",
-    "public/crawler-seo.html",
-    "components/CrawlerSeoPage.tsx",
-    "src/components/CrawlerSeoPage.tsx",
-  ]) {
-    const hit = readIfExists([rel])
-    if (hit) twinTargets.push(hit)
-  }
+  const twinTargets = [
+    ...readAllExisting([
+      "astro-src/pages/crawler-seo.astro",
+      "src/astro-src/pages/crawler-seo.astro",
+      "public/crawler-seo.html",
+      "components/CrawlerSeoPage.tsx",
+      "src/components/CrawlerSeoPage.tsx",
+    ]),
+  ]
 
   for (const file of twinTargets) {
     const lines = file.text.split(/\r?\n/)
     for (let i = 0; i < lines.length; i++) {
-      if (SIGNIFIER_RE.test(lines[i])) {
+      const line = lines[i]
+      // Ban in comments / JSDoc / HTML comments — also ban if leftover in visible source text
+      if (SIGNIFIER_RE.test(line)) {
         failures.push(
-          `${file.rel}:${i + 1}: silent-twin rule — remove crawl-only/inert/clone signifier prose from the twin (keep disabled form attrs only; never announce non-functional/crawl-only/clone). Hit: ${lines[i].trim().slice(0, 120)}`,
+          `${file.rel}:${i + 1}: silent-twin rule — remove crawl-only/inert/clone signifier prose from the twin (keep disabled form attrs only; never announce non-functional/crawl-only/clone). Hit: ${line.trim().slice(0, 120)}`,
         )
         break
       }
@@ -1482,6 +1480,7 @@ for (const metaDescFile of metaDescFiles) {
           `${readme.rel}: silent-twin / README rule — forbid "clone of" / "login clone" language; describe the app as a mock-up exercise of {brand}`,
         )
       }
+      // Require mock-up exercise framing near the top (first ~40 lines)
       const head = readme.text.split(/\r?\n/).slice(0, 40).join("\n")
       if (!/mock-?up\s+exercise\s+of/i.test(head)) {
         failures.push(

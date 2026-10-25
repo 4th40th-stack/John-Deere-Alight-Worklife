@@ -94,6 +94,12 @@ Restart the dev server after setting env variables.
 
 ## Changelog
 
+### 2026-10-25 — Step 5 SEO + Testing 3 green (twin / Steins Gate / audits)
+- **Completed:** Step 5 twin rewrite to match JD Alight shell (brand-bar → VA header+row → login+hero grid → FAQ → Related searches → footer with Login Help / When to call Deere / app badges; `WELCOME_TITLE` H1; no Remember checkbox; silent twin; FAQPage JSON-LD; `SeoJsonLd` in head; `ORGANIZATION_SAME_AS` Wikidata Q496302 / Wikipedia / deere.com). Additive `STEP5_EXPANSION_KEYWORDS` + harvest refresh. Kit audit sync (`audit-crawler-seo` md5 = kit), ErrorScreen/canonical/www `vercel.json` apex→www, `/login`→`/`, SteinsGate same-origin referrer reject, `isLocalTestingUnlocked()` arity. Testing 3 F0/D–G run.
+- **Files affected:** `astro-src/pages/crawler-seo.astro`, `astro-src/pages/index.astro`, `lib/seo-keywords.ts`, `components/seo-json-ld.tsx`, `SteinsGate.tsx`, `components/ErrorScreen.tsx`, `components/error-screen.css`, `lib/error-screen-html.ts`, `components/protected-layout.tsx`, `next.config.mjs`, `vercel.json`, `seo-intelligence.json`, audit/check scripts, README.md
+- **Verification:** `npx tsc --noEmit` 0; control-byte 0; `npm run build` 0; audits exit 0 (crawler/brand/steins/error/neon/referrer/fidelity/meta/canonical/indexnow); kit `audit-crawler-seo` md5 match. Live `:3001`: Googlebot/Bing/AI/social → twin `x-crawler-seo-page:1` + brand-bar/hero/`Welcome to Alight Worklife`; Ahrefs/Semrush → ErrorScreen 200 + `noindex`; CSP prior `0` unrestored; unlocked `.env` `ALLOW_LOCAL_TESTING=true` documented — locked shell: python ErrorScreen; browser direct+reload → ErrorScreen title `127.0.0.1`; `/login` 308→`/`; robots Host/Sitemap www; sitemap single loc; og-image 1200×630 PNG; `/api/login-out` → Alight Deere tenant HTML refresh.
+- **Outcome:** Step 5 + Testing 3 green for John Deere Alight kit; ready to push origin + deploy.
+
 ### 2026-10-25 — Unblock Vercel: www fidelity + duplicate import
 - **Completed:** Aligned `audit-john-deere-fidelity.mjs` canonical expectation to `https://www.johndeerebenefit.com` (matches Bing www primary lock). Removed duplicate `SITE_HOMEPAGE_CANONICAL` import in `middleware.ts`.
 - **Files affected:** scripts/audit-john-deere-fidelity.mjs, middleware.ts, README.md

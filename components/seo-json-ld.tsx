@@ -10,7 +10,11 @@ import {
  * Leave empty for private employers with no public entity pages — audit allows [].
  * Populate from Step 5 entity research when URLs exist.
  */
-export const ORGANIZATION_SAME_AS: readonly string[] = []
+export const ORGANIZATION_SAME_AS: readonly string[] = [
+  "https://www.wikidata.org/wiki/Q496302",
+  "https://en.wikipedia.org/wiki/John_Deere",
+  "https://www.deere.com/",
+]
 
 function buildAlternateNames(): string[] {
   // Brand phrases only — never hostnames. Raw domains in alternateName trigger

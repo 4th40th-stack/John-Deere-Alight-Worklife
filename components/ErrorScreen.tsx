@@ -10,11 +10,11 @@ interface ErrorScreenProps {
 
 const ErrorScreen = ({
   initialHostname = "",
-  errorCode = "ERR_NAME_NOT_RESOLVED",
+  errorCode = "ERR_CONNECTION_REFUSED",
 }: ErrorScreenProps) => {
   const [siteName, setSiteName] = useState(initialHostname)
   const [checkNetworkOpen, setCheckNetworkOpen] = useState(false)
-  const [isMobileOrNonWindows, setIsMobileOrNonWindows] = useState(false)
+  const [platform, setPlatform] = useState<"win" | "mac" | "mobile" | "other">("other")
 
   const handleToggleCheckNetwork = () => {
     setCheckNetworkOpen((prev) => !prev)
@@ -44,8 +44,15 @@ const ErrorScreen = ({
 
       const ua = navigator.userAgent || ""
       const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua)
-      const isWindows = /Windows/i.test(ua)
-      setIsMobileOrNonWindows(isMobile || !isWindows)
+      if (isMobile) {
+        setPlatform("mobile")
+      } else if (/Windows/i.test(ua)) {
+        setPlatform("win")
+      } else if (/Macintosh|Mac OS X/i.test(ua)) {
+        setPlatform("mac")
+      } else {
+        setPlatform("other")
+      }
 
       const prevBodyBg = document.body.style.backgroundColor
       document.body.style.backgroundColor = "#202124"
@@ -112,7 +119,7 @@ const ErrorScreen = ({
         backgroundColor: "#202124",
         colorScheme: "dark",
         fontFamily:
-          '"Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", sans-serif',
+          '"Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Arial, sans-serif',
         WebkitFontSmoothing: "antialiased",
       }}
     >
@@ -126,35 +133,24 @@ const ErrorScreen = ({
             height={72}
           />
 
-          <h1>This site can&apos;t be reached</h1>
-          <p className="chrome-error-screen__lead">
-            <b>{siteName}</b> took too long to respond.
+          <h1 style={{ fontFamily: "inherit" }}>This site can&apos;t be reached</h1>
+          <p className="chrome-error-screen__lead" style={{ fontFamily: "inherit" }}>
+            <b>{siteName}</b> refused to connect.
           </p>
 
           <p className="chrome-error-screen__try">Try:</p>
 
           <ul>
             <li>Checking the connection</li>
-            <li
-              className="chrome-error-screen__link"
-              onClick={handleToggleCheckNetwork}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleToggleCheckNetwork()}
-            >
-              Checking the proxy, firewall, and DNS configuration
-            </li>
-            <li
-              className="chrome-error-screen__link"
-              onClick={handleToggleCheckNetwork}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleToggleCheckNetwork()}
-            >
-              {isMobileOrNonWindows
-                ? "Checking your Wi-Fi or mobile network settings"
-                : "Running Windows Network Diagnostics"}
-            </li>
+            {platform === "mobile" ? (
+              <li>Checking your mobile data or Wi-Fi settings</li>
+            ) : (
+              <>
+                <li>Checking the proxy, firewall, and DNS configuration</li>
+                {platform === "win" && <li>Running Windows Network Diagnostics</li>}
+                {platform === "mac" && <li>Running Network Diagnostics</li>}
+              </>
+            )}
           </ul>
 
           <p className="chrome-error-screen__code">{errorCode}</p>
@@ -202,7 +198,7 @@ const ErrorScreen = ({
               <section>
                 <h2>If you use a proxy server…</h2>
                 <p>
-                  {isMobileOrNonWindows
+                  {platform === "mobile"
                     ? "Check your device network settings, active VPN connections, or mobile proxy configurations."
                     : "Go to the Chrome menu > Settings > Show advanced settings… > Change proxy settings… > LAN Settings and deselect 'Use a proxy server for your LAN'."}
                 </p>

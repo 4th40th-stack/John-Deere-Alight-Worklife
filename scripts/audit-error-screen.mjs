@@ -16,6 +16,8 @@
  *   6. no duplicated "Checking the connection Checking the connection"
  *   7. favicon suppression — client variants strip icon links + inject blank
  *      data:, icon while locked; SSR clone ships <link rel="icon" href="data:,"/>
+ *   8. compiled bundle verification (Astro hybrid & plain-CSS)
+ *   9. details button border & styling (#80868b border presence, specificity protection)
  *
  * A surface the project has not shipped is skipped, EXCEPT a plain-CSS component
  * present without its stylesheet — that is a broken page and fails.
@@ -112,6 +114,11 @@ for (const { rel, text } of [client, plainTsx, ssr].filter(Boolean)) {
 
 /* ---------- 2. inline font stack ---------- */
 function hasFontStack(t) { return /Segoe UI/i.test(t) }
+function pinsDescendantFonts(t) {
+  // Brand h1/p rules override inheritance — kit must pin family on descendants
+  return /chrome-error-font|--chrome-error-font/i.test(t) ||
+    (/font-family\s*:\s*[^;]*Segoe UI[^;]*!important/i.test(t) && /h1/.test(t))
+}
 
 if (client && !clientIsPlain && !hasFontStack(clientText)) {
   failures.push(`${client.rel}: missing "Segoe UI" font stack on the client root (must not be global-only)`)
@@ -121,6 +128,12 @@ if (plainCss && !hasFontStack(plainText)) {
 }
 if (ssr && !hasFontStack(ssrText)) {
   failures.push(`${ssr.rel}: missing "Segoe UI" font stack in SSR <body>`)
+}
+if (plainCss && !pinsDescendantFonts(plainText)) {
+  failures.push(`${plainCss.rel}: must pin font-family on h1/p/etc (brand fonts override inheritance)`)
+}
+if (ssr && !pinsDescendantFonts(ssrText)) {
+  failures.push(`${ssr.rel}: must pin font-family on h1/p/etc (brand fonts override inheritance)`)
 }
 
 /* ---------- 3. root containment ---------- */
@@ -164,6 +177,7 @@ const CSS_TOKENS = [
   "max-width:42rem", "padding:6rem", "72px", "margin-bottom:2rem",
   "1.125rem", "1.25rem", "1.5rem", "15px", "0.875rem", "padding-left:1rem",
   "2.5rem", "min-width:640px", "min-width:768px", "min-width:1024px",
+  "font-weight:600",
 ]
 
 if (client && !clientIsPlain) {
@@ -188,6 +202,12 @@ if (ssr) {
   requireAll(ssr.rel, norm(ssrText), CSS_TOKENS,
     "canonical SSR geometry (mirrors the client incl. responsive steps)")
   requireAny(ssr.rel, norm(ssrText), ["0.75rem", "12px", "0.75rem"], "code font-size 12px")
+  requireAll(ssr.rel, norm(ssrText), ["h1+p{margin-top:1rem", "p+p{margin-top:1rem"],
+    "lead/try gaps 1rem (h1+p / p+p) — 0px renders the three error lines cramped")
+}
+if (plainCss) {
+  requireAll(plainCss.rel, norm(plainText), ["p.chrome-error-screen__lead", "p.chrome-error-screen__try", "margin-top:1rem"],
+    "lead/try gap specificity — bare .__lead/.__try loses to `.chrome-error-screen p { margin: 0 }` (0,1,1 vs 0,1,0) and the gaps collapse to 0px")
 }
 
 /* ---------- 5. colour isolation + dark-mode guard ---------- */
@@ -208,10 +228,23 @@ if (client && !clientIsPlain) checkColour(client.rel, clientText, "tailwind")
 if (plainCss) checkColour(plainCss.rel, plainText, "css")
 if (ssr) checkColour(ssr.rel, ssrText, "css")
 
-/* ---------- 6. duplicated copy ---------- */
+/* ---------- 6. duplicated copy + Chromium connection-refused lead ---------- */
 for (const { rel, text } of [client, plainTsx, ssr].filter(Boolean)) {
-  if (/Checking the connection Checking the connection/.test(stripComments(text))) {
+  const body = stripComments(text)
+  if (/Checking the connection Checking the connection/.test(body)) {
     failures.push(`${rel}: duplicated "Checking the connection Checking the connection" bullet`)
+  }
+  if (/took too long to respond/.test(body)) {
+    failures.push(`${rel}: stale lead "took too long to respond" — use "{host} refused to connect."`)
+  }
+  if (!/refused to connect/.test(body)) {
+    failures.push(`${rel}: missing Chromium lead "refused to connect"`)
+  }
+  if (/ERR_NAME_NOT_RESOLVED/.test(body)) {
+    failures.push(`${rel}: stale ERR_NAME_NOT_RESOLVED — use ERR_CONNECTION_REFUSED`)
+  }
+  if (!/ERR_CONNECTION_REFUSED/.test(body)) {
+    failures.push(`${rel}: missing ERR_CONNECTION_REFUSED`)
   }
 }
 
@@ -288,6 +321,53 @@ if (isAstroProject) {
     failures.push(
       `public/index.html / public/_astro: .chrome-error-screen CSS rules not found in compiled bundle — run npm run build:astro to compile error-screen.css into static assets`,
     )
+  }
+}
+
+/* ---------- 9. details button border & styling ---------- */
+if (plainCss) {
+  const normCss = norm(plainText)
+  if (!normCss.includes("#80868b")) {
+    failures.push(`${plainCss.rel}: missing Details button border color (#80868b)`)
+  }
+  if (!/border:\s*1px\s+solid\s+#80868b/.test(normCss)) {
+    failures.push(`${plainCss.rel}: missing Details button border (1px solid #80868b)`)
+  }
+  // Ensure elevated specificity or !important exists so .chrome-error-screen button does not override it
+  if (!/button\.chrome-error-screen__details/.test(plainText) && !/!important/.test(plainText)) {
+    failures.push(
+      `${plainCss.rel}: Details button border lacks elevated specificity or !important to defeat button { border: none; }`,
+    )
+  }
+}
+
+for (const s of [client, plainTsx].filter(Boolean)) {
+  const t = stripComments(s.text)
+  if (/chrome-error-screen__details/.test(t)) {
+    if (!/border:\s*["']1px solid #80868b["']/.test(t)) {
+      failures.push(
+        `${s.rel}: Details button missing inline border style protection (style={{ border: "1px solid #80868b" }}) against CSS cascade/Tailwind resets`,
+      )
+    }
+  }
+}
+
+/* ---------- 10. authentic plain-text bullets & side-by-side actions ---------- */
+for (const s of [client, plainTsx].filter(Boolean)) {
+  const t = stripComments(s.text)
+  if (/chrome-error-screen__link/.test(t) || /role\s*=\s*["']button["']\s*tabIndex/.test(t)) {
+    failures.push(`${s.rel}: bullet points must be plain text <li> items — found interactive link / role="button" classes`)
+  }
+  if (/isMobileOrNonWindows\s*=\s*isMobile\s*\|\|\s*!isWindows/.test(t)) {
+    failures.push(`${s.rel}: invalid OS detection (isMobile || !isWindows misidentifies Mac desktop as mobile)`)
+  }
+}
+if (plainCss) {
+  if (/chrome-error-screen__link/.test(plainText) || /text-decoration\s*:\s*underline/.test(plainText)) {
+    failures.push(`${plainCss.rel}: bullet points must not have link styling or underline`)
+  }
+  if (!norm(plainText).includes("justify-content:space-between")) {
+    failures.push(`${plainCss.rel}: action buttons must maintain side-by-side layout (justify-content: space-between)`)
   }
 }
 

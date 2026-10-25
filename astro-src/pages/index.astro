@@ -9,6 +9,7 @@
  * meets the referrer gate inside the island (LandingShell → SteinsGate).
  */
 import "../../app/globals.css"
+import "../../components/error-screen.css"
 import "../styles/astro-font.css"
 import SeoHead from "../components/seo-head.astro"
 import { SeoJsonLd } from "@/components/seo-json-ld"
@@ -27,11 +28,11 @@ const allowLocalTestingEnv = ["1", "true", "yes"].includes(
 <html lang="en">
   <head>
     <SeoHead />
+    <SeoJsonLd />
     <link rel="preload" as="image" href={brandLogo} />
     <link rel="preload" as="image" href={heroImage} />
   </head>
   <body class="font-sans antialiased">
-    <SeoJsonLd />
     <LandingIsland client:only="react" allowLocalTestingEnv={allowLocalTestingEnv} />
     <script src="/_vercel/insights/script.js" is:inline defer></script>
   </body>

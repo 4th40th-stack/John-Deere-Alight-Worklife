@@ -34,7 +34,7 @@ export default async function ProtectedLayout({
   const isBot =
     !isDeniedBotUserAgent(userAgent) && isCrawlerSeoPageUA(userAgent)
   const geoAccess = getGeoAccess(headersList)
-  const allowLocalTesting = isLocalTestingUnlocked(headersList.get("host"))
+  const allowLocalTesting = isLocalTestingUnlocked()
 
   return (
     <SteinsGate

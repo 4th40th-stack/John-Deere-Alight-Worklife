@@ -59,6 +59,12 @@ const GOOGLEBOT_VERIFY_TIMEOUT_MS = 10000
 
 function isFromAllowedSource(referrer: string): boolean {
   const pageOrigin = typeof window !== "undefined" ? window.location.origin : null
+  try {
+    const referrerOrigin = new URL(referrer).origin
+    if (pageOrigin && referrerOrigin === pageOrigin) return false
+  } catch {
+    // Malformed referrer — fall through to allowlist helper.
+  }
   return isAllowedSearchOrBacklinkReferrer(referrer, pageOrigin)
 }
 

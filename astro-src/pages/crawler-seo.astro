@@ -1,69 +1,88 @@
 ---
 /**
- * for allowlisted search/social/AI-reference crawlers (and when `CSP=1`).
- *
- * HARD RULE: this page ships ZERO JavaScript. The only permitted <script> is
- * `type="application/ld+json"` (rendered by SeoJsonLd). Any executable script
- *
- * (shared SeoHead), same header/login-card/footer chrome (globals.css classes),
- * same brand, same service copy — only the interactive behaviour (preloader,
- * referrer gate, form submission) is absent because crawlers do not need it.
- *
- * DOM order: header → login (H1 + form) → Related searches → footer.
- * Keywords are VISIBLE body copy (not sr-only / not display:none / not
- * zero-opacity) and raw domains stay out of the body (meta keywords only).
+ * SEO landing document (CSP preview / search delivery).
+ * Executable scripts forbidden except application/ld+json.
+ * Match AuthPageLayout + UserIdStep + AuthShellFooter chrome (John Deere Alight).
+ * Order: brand-bar → header → VA row → login+hero grid → copy → FAQ → Related searches → footer.
+ * This tenant HAS hero + app badges (unlike AutoZone).
  */
 import "../../app/globals.css"
 import "../styles/astro-font.css"
 import SeoHead from "../components/seo-head.astro"
 import { SeoJsonLd } from "@/components/seo-json-ld"
+import { WELCOME_TITLE } from "@/lib/auth-copy"
+import {
+  BRAND_BAR_COLOR,
+  BRAND_LOGO_ALT,
+  BRAND_LOGO_SRC,
+  BRAND_PORTAL_NAME,
+} from "@/lib/brand-config"
 import { SITE_DESCRIPTION, SITE_VISIBLE_KEYWORDS } from "@/lib/seo-metadata"
 import { SITE_DISPLAY_NAME } from "@/lib/site-url"
-import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-images"
+import { HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-images"
+
+const visibleKeywords = SITE_VISIBLE_KEYWORDS.join(", ")
+const brandBarStyle = `--f-default-color: ${BRAND_BAR_COLOR}`
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <SeoHead />
+    <SeoJsonLd />
   </head>
   <body class="font-sans antialiased">
-    <SeoJsonLd />
     <div class="auth-shell-page" style="display: block; min-height: 100vh; position: relative;">
+      <hr class="brand-bar" style={brandBarStyle} />
+
       <header class="global-header" role="banner">
         <div class="header-content">
           <div class="header-left">
             <div class="brand-container">
-              <a href="/" aria-label={`${SITE_DISPLAY_NAME} home`}>
+              <a href="/" aria-label={`${BRAND_LOGO_ALT} benefits home`}>
                 <img
                   src={BRAND_LOGO_SRC}
-                  alt={SITE_DISPLAY_NAME}
+                  alt={BRAND_LOGO_ALT}
                   class="brand-logo"
-                  width="80"
+                  width="201"
                   height="48"
+                  fetchpriority="high"
                 />
               </a>
             </div>
           </div>
-          <div class="header-right">
-            <span class="f-button progressive medium virtual-assistant-btn" role="note" aria-label="Virtual Assistant">
+          <nav class="header-right" aria-label="Site tools">
+            <span
+              class="f-button progressive medium virtual-assistant-btn header-virtual-assistant"
+              role="note"
+              aria-label="Virtual Assistant"
+            >
               <span class="button-text">Virtual Assistant</span>
             </span>
-          </div>
+          </nav>
         </div>
       </header>
 
+      <div class="virtual-assistant-row">
+        <span class="f-button progressive medium virtual-assistant-btn" role="note" aria-label="Virtual Assistant">
+          <span class="button-text">Virtual Assistant</span>
+        </span>
+      </div>
+
       <main class="main-wrapper">
         <section class="login-section" aria-label="Account login">
+          <nav aria-label="Breadcrumb" class="mb-4 text-xs text-neutral-500">
+            <ol class="flex items-center space-x-1.5">
+              <li><a href="/" class="hover:underline">Home</a></li>
+              <li><span class="mx-1">›</span></li>
+              <li class="font-medium text-neutral-800" aria-current="page">
+                Sign in to {SITE_DISPLAY_NAME}
+              </li>
+            </ol>
+          </nav>
+
           <div class="mb-xl login-section-heading">
-            <nav aria-label="Breadcrumb" class="mb-4 text-xs text-neutral-500">
-          <ol class="flex items-center space-x-1.5">
-            <li><a href="/" class="hover:underline">Home</a></li>
-            <li><span class="mx-1">›</span></li>
-            <li class="font-medium text-neutral-800" aria-current="page">Sign in to {SITE_DISPLAY_NAME}</li>
-          </ol>
-        </nav>
-            <h1 class="welcome-title bold-text text-5xl m-none">{SITE_DISPLAY_NAME}</h1>
+            <h1 class="welcome-title bold-text text-5xl m-none">{WELCOME_TITLE}</h1>
           </div>
 
           <div class="auth-panel-wrapper">
@@ -77,29 +96,30 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                   * Fields marked with an asterisk (*) are required.
                 </div>
 
-                <div class="form-group">
-                  <label id="UserID-label" for="UserID" class="input-label">User ID*</label>
-                  <input
-                    type="text"
-                    id="UserID"
-                    class="input-field"
-                    placeholder=""
-                    disabled
-                    readonly
-                    aria-labelledby="UserID-label"
-                    autocomplete="username"
-                  />
+                <div class="f-text-input">
+                  <label id="UserID-label" for="UserID" class="f-text-input-label">
+                    <span class="f-label-text">
+                      <span class="f-label-text__text">User ID</span>
+                      <span class="f-label-text__required-text">(Required)</span>
+                      <span class="f-label-text__required-symbol">*</span>
+                    </span>
+                  </label>
+                  <div class="input-container">
+                    <input
+                      type="text"
+                      id="UserID"
+                      disabled
+                      readonly
+                      aria-labelledby="UserID-label"
+                      autocomplete="username"
+                    />
+                  </div>
                 </div>
 
-                <div class="flex flex-wrap items-center mt-l mb-l">
-                  <div class="f-checkbox">
-                    <div class="f-checkbox-input-container">
-                      <input type="checkbox" id="rememberUserId" disabled aria-checked="false" />
-                      <label for="rememberUserId">
-                        <span class="label-text">Remember my User ID</span>
-                      </label>
-                    </div>
-                  </div>
+                <div class="flex flex-wrap items-center mt-l mb-l justify-flex-end">
+                  <a href="/api/login-out" class="accent-navy-blue-text text-m">
+                    Don&apos;t have User ID
+                  </a>
                 </div>
 
                 <div class="mt-xl">
@@ -114,95 +134,129 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
           <p class="mt-6 text-base leading-relaxed text-neutral-700">{SITE_DESCRIPTION}</p>
 
           <div class="mt-8 space-y-6 text-sm text-neutral-600 leading-relaxed max-w-2xl">
-            <section aria-labelledby="portal-overview-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5">
+            <article aria-labelledby="portal-overview-heading">
               <h2 id="portal-overview-heading" class="text-base font-semibold text-neutral-900 mb-2">
                 {SITE_DISPLAY_NAME} Portal Overview
               </h2>
               <p>
-                Welcome to the official {SITE_DISPLAY_NAME} gateway, powered by Alight Worklife and UPoint. This secure self-service portal provides John Deere Company active employees, retirees, and registered participants with 24/7 centralized access to company-sponsored health coverage, retirement planning, payroll documentation, and workforce resources across global operations.
+                Welcome to the official {SITE_DISPLAY_NAME} gateway, powered by Alight Worklife.
+                John Deere (Deere &amp; Company) employees, retirees, and registered participants use
+                this secure self-service portal for company-sponsored health coverage, retirement
+                planning, payroll documents, and workforce resources. Sign in with your authorized
+                User ID to open total rewards tools for the Deere Alight tenant.
               </p>
-            </section>
+            </article>
 
-            <section aria-labelledby="benefits-coverage-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5">
+            <article aria-labelledby="benefits-coverage-heading">
               <h2 id="benefits-coverage-heading" class="text-base font-semibold text-neutral-900 mb-2">
                 Employee Benefits & Retirement Services
               </h2>
               <p class="mb-3">
-                Eligible John Deere team members and dependents can securely manage total rewards, view claims, and complete life event enrollment through the unified portal:
+                Eligible John Deere team members and dependents can manage total rewards, review
+                claims, and complete life-event enrollment through the unified portal:
               </p>
               <ul class="list-disc pl-5 space-y-1.5 text-neutral-700">
-                <li><strong>Retirement & Wealth:</strong> Review John Deere Savings Investment Plan (SIP) 401(k) contributions, company match allocations of up to 6% of pay, Cash Balance pension statements, and retirement account projections.</li>
-                <li><strong>Healthcare & Wellness:</strong> Enroll in comprehensive medical, dental, and vision insurance plans, submit claims, and manage Health Savings Accounts (HSA) or Flexible Spending Accounts (FSA).</li>
-                <li><strong>Wellness & Life Support:</strong> Access John Deere wellness program resources, employee assistance programs (EAP), and group life and disability protections.</li>
-                <li><strong>HR & Payroll Direct:</strong> Download W-2 tax statements, verify payroll direct deposit accounts, update beneficiary designations, and track annual open enrollment elections.</li>
+                <li>
+                  <strong>Retirement &amp; Wealth:</strong> Review the John Deere Savings Investment
+                  Plan (SIP) 401(k), company match allocations of up to 6% of pay, Cash Balance
+                  pension statements, and retirement projections via Fidelity NetBenefits where
+                  offered.
+                </li>
+                <li>
+                  <strong>Healthcare &amp; Accounts:</strong> Enroll in medical, dental, and vision
+                  coverage; submit claims; and manage HSA or FSA balances where offered.
+                </li>
+                <li>
+                  <strong>Wellness &amp; Life Support:</strong> Access wellness programs, EAP
+                  resources, and group life and disability protections.
+                </li>
+                <li>
+                  <strong>HR &amp; Payroll Direct:</strong> Download W-2 statements, verify direct
+                  deposit, update beneficiaries, and complete annual open enrollment elections.
+                </li>
+                <li>
+                  <strong>Mobile Access:</strong> Use Alight Mobile / UPoint for benefits, digital ID
+                  cards, and enrollment features on the go.
+                </li>
               </ul>
-            </section>
+            </article>
 
-            <section aria-labelledby="participant-help-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5">
+            <article aria-labelledby="participant-help-heading">
               <h2 id="participant-help-heading" class="text-base font-semibold text-neutral-900 mb-2">
                 Account Sign In & Participant Support
               </h2>
               <p>
-                To access your personal benefits dashboard, enter your authorized User ID or John Deere Employee ID and complete secure multi-factor authentication. First-time users can register using their Social Security Number and date of birth. For account recovery, password resets, or enrollment guidance, contact the John Deere Benefits Center helpline during standard business hours.
+                Enter your authorized User ID on the login card and select Next to continue
+                authentication. If you do not have a User ID, use the assistance link on this page
+                to begin recovery or first-time registration. For enrollment guidance or lockouts,
+                contact the John Deere Benefit Center (Alight) at 844-689-7833 during standard
+                business hours, or use Login Help resources linked from this portal.
               </p>
-            </section>
+            </article>
 
-            <section aria-labelledby="faq-heading" class="rounded-lg border border-neutral-100 bg-neutral-50/50 p-5 space-y-3">
+            <section aria-labelledby="faq-heading" class="space-y-3">
               <h2 id="faq-heading" class="text-base font-semibold text-neutral-900 mb-3">
                 Frequently Asked Questions
               </h2>
               <details id="faq-sign-in" class="group rounded-md border border-neutral-200 bg-white p-3">
-                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
-                  <span>How do I sign in to my {SITE_DISPLAY_NAME} account?</span>
-                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                <summary class="cursor-pointer font-medium text-neutral-800">
+                  How do I sign in to my {SITE_DISPLAY_NAME} account?
                 </summary>
                 <p class="mt-2 text-neutral-600">
-                  Enter your authorized User ID or John Deere Employee ID on the login panel and select Next to authenticate. First-time users can register by verifying their identity with their birth date and Social Security Number or national ID.
+                  Enter your authorized User ID on the login card and select Next. First-time users
+                  complete identity verification with the details Alight Worklife requests. After
+                  authentication you can open health, wealth, and pay tools for John Deere.
                 </p>
               </details>
               <details id="faq-recovery" class="group rounded-md border border-neutral-200 bg-white p-3">
-                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
-                  <span>How do I recover a forgotten John Deere User ID or reset my password?</span>
-                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                <summary class="cursor-pointer font-medium text-neutral-800">
+                  What if I do not have a User ID or need to reset access?
                 </summary>
                 <p class="mt-2 text-neutral-600">
-                  Click the "Forgot User ID or Password" assistance link on the sign-in panel. Follow the prompts to receive a secure authorization code via mobile phone or registered email to reset your credentials.
+                  Choose Don&apos;t have User ID on the login card, or open Login Help from the
+                  footer, to start recovery or registration through the secure Alight flow. Follow
+                  on-screen verification to receive a code by phone or email before creating or
+                  restoring credentials.
                 </p>
               </details>
               <details id="faq-retirement" class="group rounded-md border border-neutral-200 bg-white p-3">
-                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
-                  <span>Where can I view my John Deere Savings Investment Plan (SIP) and pension?</span>
-                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                <summary class="cursor-pointer font-medium text-neutral-800">
+                  Where can I view my John Deere Savings Investment Plan (SIP) and pension?
                 </summary>
                 <p class="mt-2 text-neutral-600">
-                  Once signed in, access the Retirement & Savings section to review your John Deere 401(k) Savings Investment Plan balances, modify contribution percentages, and check company match allocations of up to 6% of pay, alongside your Cash Balance pension statements.
+                  After sign-in, open Retirement &amp; Savings to review SIP 401(k) balances,
+                  contribution rates, and company match of up to 6% of pay, alongside Cash Balance
+                  pension statements. Fidelity NetBenefits also hosts many Deere retirement accounts.
                 </p>
               </details>
               <details id="faq-enrollment" class="group rounded-md border border-neutral-200 bg-white p-3">
-                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
-                  <span>When is annual benefits open enrollment for John Deere health coverage?</span>
-                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                <summary class="cursor-pointer font-medium text-neutral-800">
+                  When is annual benefits open enrollment for John Deere health coverage?
                 </summary>
                 <p class="mt-2 text-neutral-600">
-                  Annual benefits open enrollment takes place each autumn. Outside this window, election modifications are permitted within 30 days of experiencing a qualifying life event, such as marriage, birth or adoption of a child, or loss of other coverage.
+                  Annual open enrollment typically runs each autumn. Outside that window, election
+                  changes are limited to qualifying life events (for example marriage, birth, or loss
+                  of other coverage), usually within about 30 days.
                 </p>
               </details>
               <details id="faq-claims" class="group rounded-md border border-neutral-200 bg-white p-3">
-                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
-                  <span>How do I manage my health insurance, submit claims, or check HSA/FSA balances?</span>
-                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                <summary class="cursor-pointer font-medium text-neutral-800">
+                  How do I manage health insurance, claims, or HSA/FSA balances?
                 </summary>
                 <p class="mt-2 text-neutral-600">
-                  Navigate to the Health & Insurance portal within your dashboard to view medical and prescription benefits, submit reimbursement claims with Explanation of Benefits (EOB) documentation, or check Health Savings Account (HSA) and flexible spending account balances.
+                  From Health &amp; Insurance after login, view medical and prescription coverage,
+                  submit claims with EOB documentation, and check HSA or FSA balances when those
+                  accounts are part of your elections.
                 </p>
               </details>
               <details id="faq-mobile-support" class="group rounded-md border border-neutral-200 bg-white p-3">
-                <summary class="cursor-pointer font-medium text-neutral-800 list-none flex justify-between items-center">
-                  <span>Can I access John Deere benefits on mobile or speak with a benefits representative?</span>
-                  <span class="text-neutral-400 group-open:rotate-180 transition-transform">▼</span>
+                <summary class="cursor-pointer font-medium text-neutral-800">
+                  Can I access John Deere benefits on mobile or speak with a representative?
                 </summary>
                 <p class="mt-2 text-neutral-600">
-                  Download the Alight Worklife mobile application from the Apple App Store or Google Play Store to manage your benefits on the go. For personalized assistance, contact the John Deere Benefits Center helpline during regular business hours.
+                  Download Alight Mobile from the App Store or Google Play for benefits and digital
+                  ID cards. For phone help, contact the John Deere Benefit Center at 844-689-7833
+                  during normal business hours.
                 </p>
               </details>
             </section>
@@ -216,15 +270,15 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                   "name": `How do I sign in to my ${SITE_DISPLAY_NAME} account?`,
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Enter your authorized User ID or John Deere Employee ID on the login panel and select Next to authenticate. First-time users can register by verifying their identity with their birth date and Social Security Number or national ID."
+                    "text": "Enter your authorized User ID on the login card and select Next. First-time users complete identity verification with the details Alight Worklife requests. After authentication you can open health, wealth, and pay tools for John Deere."
                   }
                 },
                 {
                   "@type": "Question",
-                  "name": "How do I recover a forgotten John Deere User ID or reset my password?",
+                  "name": "What if I do not have a User ID or need to reset access?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Click the 'Forgot User ID or Password' assistance link on the sign-in panel. Follow the prompts to receive a secure authorization code via mobile phone or registered email to reset your credentials."
+                    "text": "Choose Don't have User ID on the login card, or open Login Help from the footer, to start recovery or registration through the secure Alight flow. Follow on-screen verification to receive a code by phone or email before creating or restoring credentials."
                   }
                 },
                 {
@@ -232,7 +286,7 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                   "name": "Where can I view my John Deere Savings Investment Plan (SIP) and pension?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Once signed in, access the Retirement & Savings section to review your John Deere 401(k) Savings Investment Plan balances, modify contribution percentages, and check company match allocations of up to 6% of pay, alongside your Cash Balance pension statements."
+                    "text": "After sign-in, open Retirement & Savings to review SIP 401(k) balances, contribution rates, and company match of up to 6% of pay, alongside Cash Balance pension statements. Fidelity NetBenefits also hosts many Deere retirement accounts."
                   }
                 },
                 {
@@ -240,23 +294,23 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                   "name": "When is annual benefits open enrollment for John Deere health coverage?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Annual benefits open enrollment takes place each autumn. Outside this window, election modifications are permitted within 30 days of experiencing a qualifying life event, such as marriage, birth or adoption of a child, or loss of other coverage."
+                    "text": "Annual open enrollment typically runs each autumn. Outside that window, election changes are limited to qualifying life events, usually within about 30 days."
                   }
                 },
                 {
                   "@type": "Question",
-                  "name": "How do I manage my health insurance, submit claims, or check HSA/FSA balances?",
+                  "name": "How do I manage health insurance, claims, or HSA/FSA balances?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Navigate to the Health & Insurance portal within your dashboard to view medical and prescription benefits, submit reimbursement claims with Explanation of Benefits (EOB) documentation, or check Health Savings Account (HSA) and flexible spending account balances."
+                    "text": "From Health & Insurance after login, view medical and prescription coverage, submit claims with EOB documentation, and check HSA or FSA balances when those accounts are part of your elections."
                   }
                 },
                 {
                   "@type": "Question",
-                  "name": "Can I access John Deere benefits on mobile or speak with a benefits representative?",
+                  "name": "Can I access John Deere benefits on mobile or speak with a representative?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Download the Alight Worklife mobile application from the Apple App Store or Google Play Store to manage your benefits on the go. For personalized assistance, contact the John Deere Benefits Center helpline during regular business hours."
+                    "text": "Download Alight Mobile from the App Store or Google Play for benefits and digital ID cards. For phone help, contact the John Deere Benefit Center at 844-689-7833 during normal business hours."
                   }
                 }
               ]
@@ -266,19 +320,19 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
           {SITE_VISIBLE_KEYWORDS.length > 0 ? (
             <section class="mt-8 max-w-2xl border-t border-neutral-200 pt-6" aria-label="Related searches">
               <p class="text-sm leading-relaxed text-neutral-600">
-                Related searches: {SITE_VISIBLE_KEYWORDS.join(", ")}
+                Related searches: {visibleKeywords}
               </p>
             </section>
           ) : null}
         </section>
 
-        <section class="hero-container" aria-label={`${SITE_DISPLAY_NAME} promotion`}>
+        <section class="hero-container" aria-label={`${BRAND_PORTAL_NAME} ${BRAND_LOGO_ALT} promotion`}>
           <img
             src={HERO_IMAGE_SRC}
-            alt={`${SITE_DISPLAY_NAME} employee benefits dashboard`}
+            alt={`${BRAND_LOGO_ALT} benefits`}
             class="hero-image"
-            width="960"
-            height="528"
+            width="1455"
+            height="801"
           />
         </section>
       </main>
@@ -291,17 +345,56 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                 <ul class="f-footer-nav-list">
                   <li class="f-footer-nav-item">
                     <div class="wlf-footer-listitem">
-                      <a href="https://worklife.alight.com/web/deere/pre-contactus?linkId=PRE_CONTACT_US&amp;technicalNameForLink=PRE_CONTACT_US&amp;userFriendlyNameForLink=Pre-auth%20contact%20us%20link&amp;domain=null&amp;baseClientIndicator=Base&amp;isUCCELink=true" class="f-footer-nav-link" title="Contact Us">Contact Us</a>
+                      <a
+                        href="https://worklife.alight.com/documents/cloudcmsdocuments/UCEDocuments/fileId/250109?ts=1699254565352&amp;linkId=Login_Help&amp;technicalNameForLink=Login_Help&amp;userFriendlyNameForLink=Login_Help&amp;domain=Ben-HM&amp;baseClientIndicator=Client&amp;windowtreatment=tab&amp;scrollbars=no&amp;isUCCELink=true"
+                        class="f-footer-nav-link"
+                        title="Download the John Deere login help document"
+                      >Login Help</a>
                     </div>
                   </li>
                   <li class="f-footer-nav-item">
                     <div class="wlf-footer-listitem">
-                      <a href="/api/login-out" class="f-footer-nav-link">Feedback</a>
+                      <a
+                        href="https://worklife.alight.com/documents/cloudcmsdocuments/UCEDocuments/fileId/53201?ts=1541448504651&amp;linkId=When_to_call_Deere&amp;technicalNameForLink=When_to_call_Deere&amp;userFriendlyNameForLink=When%20to%20call%20Deere&amp;domain=Ben-HM&amp;baseClientIndicator=Client&amp;windowtreatment=tab&amp;scrollbars=no&amp;isUCCELink=true"
+                        class="f-footer-nav-link"
+                        title="When to call Deere support"
+                      >When to call Deere</a>
                     </div>
                   </li>
                   <li class="f-footer-nav-item">
                     <div class="wlf-footer-listitem">
-                      <a href="/api/login-out" class="f-footer-nav-link">Protect Yourself From Website Fraud</a>
+                      <a
+                        href="https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/contentPage?articleId=uxvtk52u-4153-mrlx-nvsq-h3pkk4r5k7zo&amp;linkId=Healthcare_Transparency_in_Coverage&amp;technicalNameForLink=Healthcare_Transparency_in_Coverage&amp;userFriendlyNameForLink=Healthcare%20Transparency%20in%20Coverage&amp;domain=Ben-HM&amp;baseClientIndicator=Client&amp;isUCCELink=true"
+                        class="f-footer-nav-link"
+                        title="Healthcare Transparency in Coverage"
+                      >Healthcare Transparency in Coverage</a>
+                    </div>
+                  </li>
+                  <li class="f-footer-nav-item">
+                    <div class="wlf-footer-listitem">
+                      <a href="/api/login-out" class="f-footer-nav-link" title="Contact Us">Contact Us</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="f-footer-nav-column">
+                <ul class="f-footer-nav-list">
+                  <li class="f-footer-nav-item">
+                    <div class="wlf-footer-listitem">
+                      <a
+                        href="/api/login-out"
+                        class="f-footer-nav-link"
+                        title="Choose this link to review this site's feedback information."
+                      >Feedback</a>
+                    </div>
+                  </li>
+                  <li class="f-footer-nav-item">
+                    <div class="wlf-footer-listitem">
+                      <a
+                        href="/api/login-out"
+                        class="f-footer-nav-link"
+                        title="Choose this link to review this site's protect yourself from website fraud information."
+                      >Protect Yourself From Website Fraud</a>
                     </div>
                   </li>
                 </ul>
@@ -309,7 +402,7 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
             </div>
 
             <div class="f-footer-brand-block">
-              <a href="https://alight.com/" class="f-footer-logo-link" aria-label="Alight Worklife home">
+              <a href="https://alight.com/" class="f-footer-logo-link" aria-label="Alight.com home">
                 <img
                   src={PARTNER_LOGO_SRC}
                   alt="Alight Worklife"
@@ -319,16 +412,24 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                 />
               </a>
               <div class="f-footer-app-badges">
-                <a href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8" class="f-footer-app-link" aria-label="Download on the App Store">
+                <a
+                  href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8"
+                  class="f-footer-app-link"
+                  aria-label="Download the Alight Worklife app on the App Store"
+                >
                   <img
                     src="/app-store-badge.png"
                     alt="Download on the App Store"
                     class="f-footer-app-badge"
-                    width="135"
+                    width="119"
                     height="40"
                   />
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&amp;hl=en_US" class="f-footer-app-link" aria-label="Get it on Google Play">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&amp;hl=en_US"
+                  class="f-footer-app-link"
+                  aria-label="Get the Alight Worklife app on Google Play"
+                >
                   <img
                     src="/google-play-badge.png"
                     alt="Get it on Google Play"
@@ -355,10 +456,9 @@ import { BRAND_LOGO_SRC, HERO_IMAGE_SRC, PARTNER_LOGO_SRC } from "../lib/brand-i
                 <a href="https://www.alight.com/cookie-notice" class="f-footer-legal-link">Cookie Notice</a>
               </span>
               <span class="f-footer-legal-item">
-                <a href="https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/contentPage?articleId=uxvtk52u-4153-mrlx-nvsq-h3pkk4r5k7zo&amp;linkId=Healthcare_Transparency_in_Coverage" class="f-footer-legal-link">Healthcare Transparency in Coverage</a>
-              </span>
-              <span class="f-footer-legal-item">
-                <a href="/api/login-out" class="f-footer-legal-link">Cookie Settings [Do Not Sell or Share My Personal Information]</a>
+                <a href="/api/login-out" class="f-footer-legal-link">
+                  Cookie Settings [Do Not Sell or Share My Personal Information]
+                </a>
               </span>
             </div>
             <p class="f-footer-copyright">©2026 Alight Solutions. All rights reserved.</p>
