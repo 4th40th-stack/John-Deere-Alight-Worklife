@@ -202,7 +202,7 @@ expectIn("welcome title", "lib/auth-copy.ts", '"Welcome to Alight Worklife"')
 expectIn("brand name", "lib/brand-config.ts", 'BRAND_FULL_SITE_NAME = "John Deere Alight Worklife"')
 expectIn("login url", "lib/brand-config.ts", "#/web/deere/login")
 expectIn("project id", "lib/project-config.ts", 'PROJECT_ID = "john-deere-alight-worklife"')
-expectIn("canonical origin", "lib/site-url.ts", "https://johndeerebenefit.com")
+expectIn("canonical origin", "lib/site-url.ts", "https://www.johndeerebenefit.com")
 expectIn("hero asset listed", "lib/brand-config.ts", "/hero-logon-page.jpg")
 
 const footer = source("components/auth/auth-shell-footer.tsx")
