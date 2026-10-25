@@ -8,7 +8,7 @@ live John Deere tenant on the Alight platform.
 | | |
 |---|---|
 | **Live target (UI reference)** | <https://worklife.alight.com/ah-angular-afirst-web/#/web/deere/login?forkPage=false> |
-| **Canonical origin** | `https://johndeerebenefit.com` (`lib/site-url.ts`) — operator-pasted, Step 6 |
+| **Canonical origin** | `https://www.johndeerebenefit.com` (`lib/site-url.ts`) — www primary (Bing/Vercel) |
 | **Brand** | John Deere green `#367c2b`, measured `rgb(54, 124, 43)` from the target's brand bar and Virtual Assistant pill |
 | **Tenant slug** | `deere` (in `#/web/deere/login`, `orgName=deere`) |
 | **Typography** | FS Thrive Elliot Web (Regular / Bold / Heavy / Light / Italic), vendored under `public/fonts/` |
@@ -93,6 +93,13 @@ TELEGRAM_CHAT_ID=your_chat_id_here
 Restart the dev server after setting env variables.
 
 ## Changelog
+
+### 2026-10-25 — Unblock Vercel: www fidelity + duplicate import
+- **Completed:** Aligned `audit-john-deere-fidelity.mjs` canonical expectation to `https://www.johndeerebenefit.com` (matches Bing www primary lock). Removed duplicate `SITE_HOMEPAGE_CANONICAL` import in `middleware.ts`.
+- **Files affected:** scripts/audit-john-deere-fidelity.mjs, middleware.ts, README.md
+- **Verification:** fidelity audit + middleware import uniqueness checked locally before push.
+- **Outcome:** Vercel prebuild no longer fails on fidelity drift; Next Turbopack no longer dies on duplicate binding.
+
 
 ### 2026-10-24 — Fleet crawler-SEO debt cleanup + SERP push
 - **Completed:** CONTENT_USAGE + robots emission, SITE_VISIBLE_KEYWORDS body split, BreadcrumbList/brand-only alternateName, domain scrub in descriptions, Host bare hostname, error-icon alt, ccbot removed from discovery allowlist, bot-verification sync where needed. `audit-crawler-seo` 54/54 OK across Dada Alights SEO, Dada SEO New, Ibrahim Cash Kolapo, Kolapo, Natural, MD.
