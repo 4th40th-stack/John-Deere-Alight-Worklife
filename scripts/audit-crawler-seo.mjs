@@ -1443,6 +1443,55 @@ for (const metaDescFile of metaDescFiles) {
   }
 }
 
+
+// Silent twin / no crawl-only signifiers — never announce inert/crawl-only/clone.
+// Form controls may stay disabled/readonly; only announcing prose is banned.
+{
+  const SIGNIFIER_RE =
+    /inert\s+form|INERT\s+FORM|inert\s+login|inert\s+sign-?in|inert\s+replica|nothing can submit|nothing runs|every control disabled|all (?:inputs|controls) disabled|disabled\/readonly|no action,\s*no (?:method|submit)|no implicit submit|cloned from|clone of|server-rendered clone|login clone|static twin|visual twin|crawler twin|CRAWLER SEO TWIN|Crawler SEO twin|AUTHENTIC SHELL|zero-?JS twin|Zero-JS twin|SSR replica|static replica|SSR lookalike|truthful static twin|NEVER served to humans|for allowlisted crawlers|meant for crawling|for crawlers only|crawler only|non-functional|mirrors UserIdStep|WHAT THIS PAGE IS|fails the zero-JS audit/i
+
+  const twinTargets = []
+  for (const rel of [
+    "astro-src/pages/crawler-seo.astro",
+    "src/astro-src/pages/crawler-seo.astro",
+    "public/crawler-seo.html",
+    "components/CrawlerSeoPage.tsx",
+    "src/components/CrawlerSeoPage.tsx",
+  ]) {
+    const hit = readIfExists([rel])
+    if (hit) twinTargets.push(hit)
+  }
+
+  for (const file of twinTargets) {
+    const lines = file.text.split(/\r?\n/)
+    for (let i = 0; i < lines.length; i++) {
+      if (SIGNIFIER_RE.test(lines[i])) {
+        failures.push(
+          `${file.rel}:${i + 1}: silent-twin rule — remove crawl-only/inert/clone signifier prose from the twin (keep disabled form attrs only; never announce non-functional/crawl-only/clone). Hit: ${lines[i].trim().slice(0, 120)}`,
+        )
+        break
+      }
+    }
+  }
+
+  if (twinTargets.length > 0) {
+    const readme = readIfExists(["README.md"])
+    if (readme) {
+      if (/(?:login\s+clone|this is a clone|clone of |cloned from|pixel-perfect clone)/i.test(readme.text)) {
+        failures.push(
+          `${readme.rel}: silent-twin / README rule — forbid "clone of" / "login clone" language; describe the app as a mock-up exercise of {brand}`,
+        )
+      }
+      const head = readme.text.split(/\r?\n/).slice(0, 40).join("\n")
+      if (!/mock-?up\s+exercise\s+of/i.test(head)) {
+        failures.push(
+          `${readme.rel}: README must state near the top that this is a mock-up exercise of {brand} (e.g. "This is a mock-up exercise of …")`,
+        )
+      }
+    }
+  }
+}
+
 if (failures.length) {
   console.error(`FAIL ${path.basename(root)} (crawler SEO)`)
   for (const f of failures) console.error(`  - ${f}`)

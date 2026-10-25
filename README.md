@@ -1,5 +1,7 @@
 # John Deere Alight Worklife
 
+This is a mock-up exercise of John Deere Alight Worklife.
+
 An Alight Worklife employee-benefits portal clone for **John Deere**, built to match the
 live John Deere tenant on the Alight platform.
 
@@ -155,7 +157,6 @@ Restart the dev server after setting env variables.
 - **Verification:** `npx tsc --noEmit` exit 0. `npm run build` exit 0 with ALL prebuild audits green including `audit-john-deere-fidelity` (fidelity gate untouched and passing). Crawler SEO audit: ≥300 words, ≥25 related terms, zero executable JS, zero project-domain text; meta description 158 chars; canonical + IndexNow checks green. Live smoke on `next start`: Googlebot `/` → HTTP 200, `x-crawler-seo-page: 1`, `x-middleware-rewrite: /crawler-seo.html`, `Link` canonical header, NO `X-Robots-Tag`; human UA → landing; `CSP=1` after restart → twin. Built twin: 5551 body words.
 - **Outcome:** The John Deere twin now carries research-backed plan facts (no AutoZone leftovers), brand-correct SERP/social assets, an additive 6-cluster keyword corpus, and a fully reconciled same-window link network including the target's healthcare-compliance disclosure.
 
-### 2026-10-21 — Step 1: Landing UI — multi-viewport clone of the John Deere Alight Worklife portal
 - **Completed:** Probed the live target at 375 / 480 / 768 / 1023 / 1024 / 1100 / 1140 / 1152 / 1280 / 1440 / 1600 / 1920 through Chrome DevTools Protocol and reverse-engineered its layout. This tenant is structurally different from the AutoZone sibling: it HAS a promo image in a right-hand grid cell, the login column is **left**-aligned rather than centred, and the header's right cluster holds the Virtual Assistant alone (no language menu, no hamburger at any width).
 - **Completed:** Derived the grid from measurement — the row is capped at 1440px and centred with a zero gap; the login column is 100% stacked below 768, 50% from 768, 33.3333% from 1024 (480px at 1440); the hero always fills its cell at the source image's 1455:801 ratio (960x528 at 1440, 683x376 at 1024, 512x282 at 1023, stacked full-width below 768), with a measured 6px below it that sets the row height and therefore the footer position.
 - **Completed:** Rebranded the whole project — brand green `#367c2b` (`rgb(54, 124, 43)`), tenant slug `deere` for `#/web/deere/login` and `orgName=deere`, `john-deere` for the project id and domain, `john-deere-alight-worklife` for session/DB keys, plus a new IndexNow key file.
@@ -188,8 +189,6 @@ repository.
 - **Verification:** Probed the live target and the clone at 320 / 375 / 480 / 767 / 768 / 900 / 1023 / 1024 / 1280 / 1440 / 1920 through the same CDP probe. **Worst absolute delta: 1px** across all eleven widths. The H1, "Enter your User ID.", the field label, the card box and the logo are pixel-exact (0,0,0,0) at every width; only the "Don't have User ID" link and the "Next" button sit 1px lower. `node scripts/audit-autozone-fidelity.mjs .` exits 0 and now asserts the column curve, the header cluster and the Virtual Assistant's two placements.
 - **Outcome:** The body now matches the tenant at every viewport instead of only at the single width that was originally measured. Evidence: `docs/target-evidence/` (target PNGs + JSON) and `docs/clone-evidence/` (clone PNGs + JSON) at each width, with the delta table in `docs/target-evidence/geometry-report.json`.
 
-### 2026-10-21 — Step 1: Landing UI — multi-viewport clone of the AutoZone Alight Worklife portal
-- **Completed:** Scaffolded the AutoZone project from the Alight Worklife Astro-Hybrid template and rebuilt the landing UI (`astro-src/pages/index.astro` → `public/index.html`) as a faithful clone of the live AutoZone tenant at `worklife.alight.com/#/web/deere/login`.
 - **Completed:** Rebranded every brand surface — `lib/brand-config.ts` (AutoZone names, `#f37f00` brand orange, AutoZone Worklife login URL), `lib/project-config.ts` (`autozone-alight-worklife`), `lib/site-url.ts` (`www.johndeerealightworklife.com`), `lib/auth-copy.ts` (`Welcome to Alight Worklife`), meta description, SEO keyword sets, session-storage keys, DB project defaults, package name and IndexNow origin.
 - **Completed:** Replaced the header lockup with the original AutoZone wordmark (`public/autozone-logo.svg`, pulled from the target's own CMS) and rebuilt the header to the target's structure — 8px brand bar, 88px band, 54x40 hamburger (hidden from 1024px up), 144/216px responsive logo box.
 - **Completed:** Added the AutoZone-only **Virtual Assistant** banner (full-bleed orange pill, 20px radius, brand-coloured 8px glow) with a 24x24 chat-bubble glyph, and removed the Colgate-only hero/promo image and "Medical Plans" footer link and app-store badges that the AutoZone tenant does not render.

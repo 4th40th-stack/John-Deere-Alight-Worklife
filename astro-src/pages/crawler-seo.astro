@@ -1,13 +1,10 @@
 ---
 /**
- * Crawler SEO twin — served by the middleware rewrite to `public/crawler-seo.html`
  * for allowlisted search/social/AI-reference crawlers (and when `CSP=1`).
  *
  * HARD RULE: this page ships ZERO JavaScript. The only permitted <script> is
  * `type="application/ld+json"` (rendered by SeoJsonLd). Any executable script
- * here ships weight to every crawler request and fails the zero-JS audit (A1).
  *
- * It is a truthful static twin of THIS project's human landing: same head
  * (shared SeoHead), same header/login-card/footer chrome (globals.css classes),
  * same brand, same service copy — only the interactive behaviour (preloader,
  * referrer gate, form submission) is absent because crawlers do not need it.
